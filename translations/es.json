@@ -102,7 +102,26 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Axl Espai De Salut. Todos los derechos reservados."
+    "copyright": "© 2025 Axl Espai De Salut. Todos los derechos reservados.",
+    "privacyPolicy": "Política de Privacidad"
+  },
+  "privacyPolicy": {
+    "title": "POLÍTICA DE PRIVACIDAD",
+    "legalNotice": "Aviso legal",
+    "sections": [
+      {
+        "title": "Aviso legal",
+        "content": "Somos un centro de fisioterapia comprometido con la privacidad y protección de datos de nuestros pacientes. Nuestra política de privacidad está diseñada para divulgar nuestras prácticas de recopilación, uso, divulgación y gestión de datos de los usuarios. También incluye nuestro compromiso de proteger la privacidad de nuestros pacientes y las medidas que aplicamos para garantizar su seguridad.\n\nEs importante que nuestros pacientes sepan qué tipo de información recopilamos, por qué la recopilamos, cómo la compartimos con terceros, y cómo ejercer sus derechos de acuerdo con la legislación de privacidad vigente. También abordamos las prácticas específicas relacionadas con la recopilación de datos de menores y otros aspectos relevantes.\n\nPara obtener más detalles, por favor consulte nuestra política de privacidad completa."
+      },
+      {
+        "title": "Política de Privacidad: fundamentos",
+        "content": "Nuestra Política de Privacidad es fundamental para nuestro compromiso con la protección de datos de nuestros pacientes. Es una declaración que revela nuestras prácticas de recopilación, uso, divulgación, procesos y gestión de datos. También demuestra nuestra dedicación a proteger la privacidad de nuestros pacientes y explica los mecanismos que aplicamos para garantizar la seguridad de sus datos.\n\nEs importante cumplir con las obligaciones legales en cuanto a la Política de Privacidad, por lo que nos aseguramos de cumplir con la legislación pertinente a nuestras actividades y ubicación."
+      },
+      {
+        "title": "Qué debe incluirse en nuestra Política de Privacidad",
+        "content": "Nuestra Política de Privacidad aborda diferentes aspectos, como los tipos de información que recopilamos, la explicación de por qué la recopilamos, nuestras prácticas para compartir información con terceros, los derechos de nuestros pacientes según la legislación de privacidad, las prácticas relacionadas con la recopilación de datos de menores, entre otros aspectos relevantes.\n\nPara obtener más detalles, puede consultar nuestra Política de Privacidad completa."
+      }
+    ]
   },
   "images": {
     "hero": "Hero section - Bienvenidos",

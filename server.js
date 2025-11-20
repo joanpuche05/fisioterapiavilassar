@@ -50,9 +50,39 @@ app.get('/', (req, res) => {
   });
 });
 
+// Catalan version (with /ca prefix for consistency with privacy policy)
+app.get('/ca', (req, res) => {
+  res.render('index', {
+    t: translations.ca,
+    lang: 'ca',
+    alternateLang: 'es',
+    alternateLangName: 'Español'
+  });
+});
+
 // Spanish version
 app.get('/es', (req, res) => {
   res.render('index', {
+    t: translations.es,
+    lang: 'es',
+    alternateLang: 'ca',
+    alternateLangName: 'Català'
+  });
+});
+
+// Catalan Privacy Policy
+app.get('/ca/politica-de-privacitat', (req, res) => {
+  res.render('privacy-policy', {
+    t: translations.ca,
+    lang: 'ca',
+    alternateLang: 'es',
+    alternateLangName: 'Español'
+  });
+});
+
+// Spanish Privacy Policy
+app.get('/es/politica-de-privacidad', (req, res) => {
+  res.render('privacy-policy', {
     t: translations.es,
     lang: 'es',
     alternateLang: 'ca',

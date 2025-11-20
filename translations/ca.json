@@ -102,7 +102,26 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 Axl Espai De Salut. Tots els drets reservats."
+    "copyright": "© 2025 Axl Espai De Salut. Tots els drets reservats.",
+    "privacyPolicy": "Política de Privacitat"
+  },
+  "privacyPolicy": {
+    "title": "POLÍTICA DE PRIVACITAT",
+    "legalNotice": "Avís legal",
+    "sections": [
+      {
+        "title": "Avís legal",
+        "content": "Som un centre de fisioterapia compromès amb la privacitat i la protecció de dades dels nostres pacients. La nostra política de privacitat està dissenyada per divulgar les nostres pràctiques de recopilació, ús, divulgació i gestió de dades dels usuaris. También inclou el nostre compromís de protegir la privacitat dels nostres pacients i les mesures que apliquem per garantir la seva seguretat.\n\nÉs important que els nostres pacients sàpiguen quin tipus d'informació recopilem, per què la recopilem, com la compartim amb tercers, i com exercir els seus drets d'acord amb la legislació de privacitat vigent. También abordarem les pràctiques específiques relacionades amb la recopilació de dades de menors i altres aspectes rellevants.\n\nPer obtenir més detalls, si us plau consulteu la nostra política de privacitat completa."
+      },
+      {
+        "title": "Política de Privacitat: fonaments",
+        "content": "La nostra Política de Privacitat és fonamental per al nostre compromís amb la protecció de dades dels nostres pacients. És una declaració que revela les nostres pràctiques de recopilació, ús, divulgació, processos i gestió de dades. También demostra la nostra dedicació a protegir la privacitat dels nostres pacients i explica els mecanismes que apliquem per garantir la seguretat de les seves dades.\n\nÉs important complir amb les obligacions legals pel que fa a la Política de Privacitat, per la qual cosa ens assegurem de complir amb la legislació pertinent a les nostres activitats i ubicació."
+      },
+      {
+        "title": "Què ha d'incloure's a la nostra Política de Privacitat",
+        "content": "La nostra Política de Privacitat aborda diferents aspectes, com els tipus d'informació que recopilem, l'explicació de per què la recopilem, les nostres pràctiques per compartir informació amb tercers, els drets dels nostres pacients segons la legislació de privacitat, les pràctiques relacionades amb la recopilació de dades de menors, entre altres aspectes rellevants.\n\nPer obtenir més detalls, podeu consultar la nostra Política de Privacitat completa."
+      }
+    ]
   },
   "images": {
     "hero": "Secció heroi - Benvinguts",
