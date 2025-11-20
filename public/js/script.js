@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Smooth scrolling for desktop navigation links
-    const navLinks = document.querySelectorAll('header nav a');
+    const navLinks = document.querySelectorAll('header nav:not(.mobile-menu) a');
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
