@@ -5,8 +5,10 @@
 /* Reset and Base Styles */
 :root {
     /* Colors */
-    --primary-color: #0d2c40; /* Dark Blue/Teal */
-    --secondary-color: #4fbdb3; /* A lighter teal for accents */
+    --primary-color: #0d2c40;
+    /* Dark Blue/Teal */
+    --secondary-color: #4fbdb3;
+    /* A lighter teal for accents */
     --text-color: #333;
     --background-color: #ffffff;
     --light-gray-color: #f4f4f4;
@@ -38,7 +40,12 @@ body {
     padding: 0 20px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-family-default);
     margin-bottom: 1rem;
 }
@@ -64,7 +71,9 @@ h3 {
     line-height: 1.4;
 }
 
-h4, h5, h6 {
+h4,
+h5,
+h6 {
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.5;
@@ -75,15 +84,18 @@ a {
     color: var(--secondary-color);
 }
 
-strong, b {
+strong,
+b {
     font-weight: 700;
 }
 
-em, i {
+em,
+i {
     font-style: italic;
 }
 
-code, pre {
+code,
+pre {
     font-family: var(--font-family-monospace);
     font-size: 14px;
 }
@@ -117,7 +129,7 @@ section {
 /* Header */
 header {
     background-color: var(--background-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
     left: 0;
@@ -191,7 +203,8 @@ header .social-media a:hover svg {
     justify-content: center;
     text-align: center;
     color: white;
-    padding-top: 80px; /* Offset for fixed header */
+    padding-top: 80px;
+    /* Offset for fixed header */
 }
 
 .hero::before {
@@ -277,7 +290,7 @@ header .social-media a:hover svg {
     padding: 0;
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .service-category:nth-child(odd) {
@@ -374,7 +387,7 @@ header .social-media a:hover svg {
     width: 300px;
     height: 300px;
     object-fit: cover;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Divider Image Section */
@@ -410,7 +423,8 @@ header .social-media a:hover svg {
     border-radius: 0;
 }
 
-.contact-form h3, .contact-info h3 {
+.contact-form h3,
+.contact-info h3 {
     font-size: 1.2rem;
     font-weight: 300;
     color: white;
@@ -444,7 +458,7 @@ header .social-media a:hover svg {
     font-weight: 300;
     border: none;
     border-radius: 0;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
 }
 
@@ -452,7 +466,7 @@ header .social-media a:hover svg {
 .form-group textarea::placeholder {
     font-size: 13px;
     font-weight: 300;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .form-group textarea {
@@ -526,13 +540,14 @@ footer p {
     header nav ul li {
         margin: 5px 10px;
     }
-    
+
     header .social-media {
         margin-top: 10px;
     }
 
     .hero {
-        padding-top: 160px; /* Adjust for taller header */
+        padding-top: 160px;
+        /* Adjust for taller header */
     }
 
     body {
