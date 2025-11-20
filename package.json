@@ -1,0 +1,26 @@
+{
+  "name": "fisioterapiavilassar.com",
+  "version": "1.0.0",
+  "description": "Bilingual website for Axl Espai De Salut",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joanpuche05/fisioterapiavilassar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/joanpuche05/fisioterapiavilassar/issues"
+  },
+  "homepage": "https://github.com/joanpuche05/fisioterapiavilassar#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}

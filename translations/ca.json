@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "[CA] Axl Espai De Salut - Fisioterapia a Vilassar de Mar",
+    "description": "[CA] Clínica de fisioterapia a Vilassar de Mar, Barcelona"
+  },
+  "nav": {
+    "filosofia": "[CA] FILOSOFIA",
+    "servicios": "[CA] SERVEIS",
+    "contacto": "[CA] CONTACTE"
+  },
+  "header": {
+    "title": "Axl Espai De Salut"
+  },
+  "hero": {
+    "title": "[CA] BENVINGUTS A AXL ESPAI DE SALUT",
+    "subtitle": "[CA] cuidem de la teva salut"
+  },
+  "filosofia": {
+    "title": "[CA] FILOSOFIA",
+    "paragraph1": "[CA] Placeholder paragraph 1 - Will be replaced with proper Catalan translation",
+    "paragraph2": "[CA] Placeholder paragraph 2 - Will be replaced with proper Catalan translation",
+    "quote": "[CA] Placeholder quote - Will be replaced with proper Catalan translation"
+  },
+  "servicios": {
+    "title": "[CA] SERVEIS",
+    "categories": [
+      {
+        "name": "[CA] TERÀPIA MANUAL",
+        "items": [
+          "[CA] Service item 1",
+          "[CA] Service item 2",
+          "[CA] Service item 3"
+        ]
+      },
+      {
+        "name": "[CA] TÈCNIQUES AVANÇADES",
+        "items": [
+          "[CA] Service item 1",
+          "[CA] Service item 2",
+          "[CA] Service item 3"
+        ]
+      },
+      {
+        "name": "[CA] FISIOTERAPIA ESPECIALITZADA",
+        "items": [
+          "[CA] Service item 1",
+          "[CA] Service item 2",
+          "[CA] Service item 3"
+        ]
+      },
+      {
+        "name": "[CA] EXERCICI TERAPÈUTIC",
+        "items": [
+          "[CA] Service item 1",
+          "[CA] Service item 2",
+          "[CA] Service item 3"
+        ]
+      }
+    ]
+  },
+  "contacto": {
+    "title": "[CA] CONTACTE",
+    "form": {
+      "heading": "[CA] Envíanos un missatge",
+      "labels": {
+        "nombre": "[CA] Nom",
+        "email": "[CA] Email",
+        "telefono": "[CA] Telèfon",
+        "mensaje": "[CA] Missatge"
+      },
+      "button": "[CA] Enviar",
+      "placeholders": {
+        "nombre": "[CA] El teu nom",
+        "email": "[CA] tu@email.com",
+        "telefono": "[CA] +34 93 759 84 13",
+        "mensaje": "[CA] El teu missatge aquí..."
+      }
+    },
+    "info": {
+      "heading": "[CA] Informació de Contacte",
+      "labels": {
+        "direccion": "[CA] Adreça",
+        "telefono": "[CA] Telèfon",
+        "email": "[CA] Email",
+        "horario": "[CA] Horari"
+      },
+      "details": {
+        "direccion": "Carrer de Narcís Monturiol, 156, 08340 Vilassar de Mar, Barcelona",
+        "telefono": "+34 93 759 84 13",
+        "email": "axl@fisioterapiavilassar.com",
+        "horario": "[CA] Dilluns a Divendres, 9:00-13:00 i 15:00-20:00"
+      }
+    },
+    "map": {
+      "title": "[CA] Ubicació",
+      "alt": "[CA] Ubicació d'Axl Espai De Salut a Google Maps"
+    }
+  },
+  "footer": {
+    "copyright": "[CA] © 2025 Axl Espai De Salut. Tots els drets reservats."
+  },
+  "images": {
+    "hero": "[CA] Secció heroi - Benvinguts",
+    "service1": "[CA] Teràpia manual",
+    "service2": "[CA] Tècniques avançades",
+    "service3": "[CA] Fisioterapia especialitzada",
+    "service4": "[CA] Exercici terapèutic",
+    "philosophy": "[CA] Filosofia d'Axl Espai De Salut"
+  }
+}

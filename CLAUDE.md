@@ -4,16 +4,33 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**fisioterapiavilassar.com** is a static website for Axl Espai De Salut, a physiotherapy clinic in Vilassar de Mar, Barcelona. The site is built with vanilla HTML, CSS, and JavaScript (no build tools or frameworks). It's a single-page website with sections for: hero, services, philosophy, and contact.
+**fisioterapiavilassar.com** is a bilingual website for Axl Espai De Salut, a physiotherapy clinic in Vilassar de Mar, Barcelona. The site is built with Node.js/Express backend, EJS templating, and vanilla CSS/JavaScript. It supports Spanish (default at `/`) and Catalan (at `/ca`) with separate URL routes for SEO purposes. It's a single-page website with sections for: hero, services, philosophy, and contact.
 
 ## Architecture
 
 ### File Structure
-- **index.html** - Single page with all content sections (header, hero, services, philosophy, contact, footer)
-- **css/style.css** - All styling using CSS variables for colors and typography
-- **js/script.js** - Smooth scroll behavior for navigation links
-- **assets/** - Image files (JPG, JPEG format) for service cards and philosophy section
+- **server.js** - Express.js server that handles routing and template rendering
+- **views/index.ejs** - Single EJS template serving both language versions with variable interpolation
+- **translations/es.json** - Spanish translations and content
+- **translations/ca.json** - Catalan translations and content (Phase A: placeholders, Phase B: proper translations)
+- **public/css/style.css** - All styling using CSS variables for colors and typography
+- **public/js/script.js** - Smooth scroll behavior for navigation links
+- **public/assets/** - Image files (JPG, JPEG format) for service cards and philosophy section
+- **package.json** - Node.js dependencies (Express, EJS)
 - **FONT_SPECIFICATIONS.md** - Complete typography guidelines and font specifications
+
+### Language Implementation
+
+The site uses a **two-phase approach** for bilingual support:
+
+**Phase A (Completed):** Functional implementation with Spanish content and placeholder Catalan (marked with `[CA]` prefix)
+**Phase B (Pending):** Replace placeholder Catalan translations with proper translations
+
+Key implementation details:
+- Single EJS template (`views/index.ejs`) handles both languages via template variables
+- Language-specific content loaded from JSON files (`translations/es.json`, `translations/ca.json`)
+- Server passes appropriate translation object to template based on route (`/` for Spanish, `/ca` for Catalan)
+- SEO-friendly with hreflang tags, canonical URLs, and language attributes
 
 ### Design System (CSS Variables)
 
@@ -55,10 +72,18 @@ Mobile breakpoint: `768px` (max-width)
 
 The development server runs on **port 4321** using:
 ```bash
-npx http-server -p 4321
+npm start
 ```
 
-The site will be accessible at `http://localhost:4321`
+Or for development with auto-reload (requires nodemon):
+```bash
+npm install -g nodemon
+nodemon server.js
+```
+
+The site will be accessible at:
+- Spanish: `http://localhost:4321/`
+- Catalan: `http://localhost:4321/ca`
 
 ### Chrome DevTools Validation
 
@@ -117,33 +142,48 @@ Embedded Google Map iframe pointing to the clinic's physical location. The ifram
 
 ### Updating Contact Information
 
-Contact details are hardcoded in the "Información de Contacto" section:
-- Address: Carrer Sant Jaume, 33, 08340 Vilassar de Mar, Barcelona
+Contact details are stored in translation JSON files for both languages:
+
+**Spanish** (`translations/es.json`):
+- Address: Carrer de Narcís Monturiol, 156, 08340 Vilassar de Mar, Barcelona
 - Phone: +34 93 759 84 13
 - Email: axl@fisioterapiavilassar.com
 - Hours: Lunes a Viernes, 9:00-13:00 y 15:00-20:00
 
-Also update in the contact form action and email link.
+**Catalan** (`translations/ca.json`):
+- Update the same fields with Catalan translations
+
+To update contact information:
+1. Edit the `contacto.info.details` object in both JSON files
+2. Restart the server with `npm start`
+3. Changes are reflected immediately on both language versions
 
 ### Adding or Modifying Services
 
-Each service category in the services section follows this pattern:
-```html
-<div class="service-category">
-    <div class="service-image">
-        <img src="./assets/image.jpg" alt="Description">
-    </div>
-    <div class="service-info">
-        <h3>SERVICE TITLE</h3>
-        <ul>
-            <li>Service point 1</li>
-            <li>Service point 2</li>
-        </ul>
-    </div>
-</div>
+Services are dynamically rendered from translation JSON files. To modify services:
+
+1. Edit `translations/es.json` - update `servicios.categories` array:
+```json
+{
+  "servicios": {
+    "categories": [
+      {
+        "name": "SERVICE TITLE",
+        "items": [
+          "Service item 1",
+          "Service item 2",
+          "Service item 3"
+        ]
+      }
+    ]
+  }
+}
 ```
 
-Odd-numbered service categories automatically reverse flex direction (image on right).
+2. Update the same structure in `translations/ca.json` with Catalan translations
+3. Restart server - changes are reflected on both language versions
+
+The EJS template automatically renders each service category with its image and items list.
 
 ### Changing Colors
 
@@ -201,11 +241,27 @@ The site targets all modern browsers with CSS Grid/Flexbox support:
 - Hero background image uses efficient compression
 - Service images are JPG format (smaller than PNG for photos)
 
+## Language Implementation - Phase B (Catalan Translations)
+
+**Status:** Phase A complete. Phase B pending.
+
+### Phase B Tasks (For proper Catalan translation):
+1. Extract final Spanish content from `translations/es.json`
+2. Create professional Catalan translations
+3. Replace `[CA]` placeholder content in `translations/ca.json`
+4. Final QA testing on both language versions
+5. Deploy updated translations
+
+See `Docs/LANGUAGE_IMPLEMENTATION_PLAN.md` for complete implementation details.
+
 ## Future Enhancement Ideas
 
 - Backend integration for contact form (currently no action endpoint)
 - Service booking system
 - Staff profiles/testimonials section
 - Blog or news section
-- Multi-language support
+- Automatic language detection based on browser Accept-Language header
 - Dark mode variant (CSS variables support this well)
+- Analytics tracking per language
+- Sitemap generation for both language versions
+- RSS feed support
