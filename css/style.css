@@ -1,0 +1,603 @@
+/*
+* Skeleton CSS for Axl Espai De Salut
+*/
+
+/* Reset and Base Styles */
+:root {
+    /* Colors */
+    --primary-color: #0d2c40; /* Dark Blue/Teal */
+    --secondary-color: #4fbdb3; /* A lighter teal for accents */
+    --text-color: #333;
+    --background-color: #ffffff;
+    --light-gray-color: #f4f4f4;
+    --container-width: 1100px;
+
+    /* Typography */
+    --font-family-default: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-family-monospace: "SF Mono", Menlo, Monaco, "Courier New", monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family-default);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-default);
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+h4, h5, h6 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+strong, b {
+    font-weight: 700;
+}
+
+em, i {
+    font-style: italic;
+}
+
+code, pre {
+    font-family: var(--font-family-monospace);
+    font-size: 14px;
+}
+
+code {
+    background-color: var(--light-gray-color);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+pre {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+section {
+    padding: 2rem 0;
+}
+
+/* Header */
+header {
+    background-color: var(--background-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+header .logo a {
+    display: inline-block;
+}
+
+header .logo img {
+    height: 60px;
+    width: auto;
+}
+
+header nav ul {
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    font-size: 15px;
+    font-weight: 350;
+    color: #a89080;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: var(--secondary-color);
+}
+
+header .social-media {
+    display: flex;
+    align-items: center;
+}
+
+header .social-media a {
+    margin-left: 15px;
+}
+
+header .social-media svg {
+    fill: var(--primary-color);
+    transition: fill 0.3s ease;
+}
+
+header .social-media a:hover svg {
+    fill: var(--secondary-color);
+}
+
+
+/* Hero Section */
+.hero {
+    background: url('../assets/cda177_ff0f23b7b7ab47e5a5504bddb2fee88a~mv2_d_7040_3733_s_4_2.jpg') no-repeat center center/cover;
+    background-attachment: scroll;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding-top: 80px; /* Offset for fixed header */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.hero-text {
+    position: relative;
+    z-index: 1;
+    margin-top: 180px;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 150;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    font-size: 1rem;
+    font-weight: 200;
+    margin-bottom: 2rem;
+}
+
+.hero-divider {
+    width: 1px;
+    height: 300px;
+    background-color: white;
+    margin: 1.5rem auto;
+}
+
+.hero-subtitle {
+    font-size: 0.5rem;
+    font-weight: 75;
+    letter-spacing: 4px;
+    margin-bottom: 0;
+    text-transform: lowercase;
+    font-style: italic;
+}
+
+.cta-button {
+    background-color: #6b8e6a;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 300;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+}
+
+.cta-button:hover {
+    background-color: #5a7959;
+}
+
+/* Services Section */
+.services {
+    background-color: var(--light-gray-color);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.service-category {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+    background-color: white;
+    padding: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.service-category:nth-child(odd) {
+    flex-direction: column;
+}
+
+.service-image {
+    flex: 1;
+    height: 180px;
+}
+
+.service-image img {
+    border-radius: 0;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.service-info {
+    padding: 1rem 1.2rem;
+}
+
+.service-info h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.6rem;
+    margin-top: 0;
+}
+
+.service-info ul {
+    margin: 0;
+    padding: 0;
+}
+
+.service-info ul li {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
+    padding-left: 1.2rem;
+    position: relative;
+}
+
+.service-info ul li:last-child {
+    margin-bottom: 0;
+}
+
+.service-info ul li::before {
+    content: '✓';
+    color: var(--secondary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Philosophy Section */
+.philosophy-content {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.philosophy-text {
+    flex: 1.5;
+}
+
+.philosophy-text p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.philosophy-text blockquote {
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 300;
+    color: #555;
+    margin-top: 2rem;
+    padding-left: 0;
+    line-height: 1.8;
+    border-left: none;
+}
+
+.philosophy-image {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.philosophy-image img {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Divider Image Section */
+.divider-image {
+    padding: 0;
+    background: url('../assets/divider-image.png') no-repeat center top/cover;
+    background-attachment: fixed;
+    height: 600px;
+    width: 100%;
+}
+
+/* Contact Section */
+.contact {
+    background-color: #8b9e7a;
+    color: white;
+}
+
+.contact h2 {
+    color: white;
+}
+
+.contact-wrapper {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    align-items: flex-start;
+}
+
+.contact-form {
+    flex: 1.5;
+    background: #8b9e7a;
+    padding: 0;
+    border-radius: 0;
+}
+
+.contact-form h3, .contact-info h3 {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 300;
+    margin-bottom: 0.3rem;
+    color: white;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.6rem;
+    font-family: var(--font-family-default);
+    font-size: 14px;
+    font-weight: 300;
+    border: none;
+    border-radius: 0;
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.8);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.contact-info {
+    flex: 1;
+    padding-top: 0;
+}
+
+.contact-info h3 {
+    margin-top: 0;
+}
+
+.contact-info p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    color: white;
+}
+
+.contact-info strong {
+    font-weight: 400;
+}
+
+.contact-info a {
+    color: #d4e5d1;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: #ffffff;
+}
+
+.map {
+    width: 100%;
+}
+
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+footer p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 0;
+    }
+
+    header nav ul {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    header nav ul li {
+        margin: 5px 10px;
+    }
+    
+    header .social-media {
+        margin-top: 10px;
+    }
+
+    .hero {
+        padding-top: 160px; /* Adjust for taller header */
+    }
+
+    body {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-category,
+    .service-category:nth-child(odd) {
+        flex-direction: column;
+    }
+
+    .philosophy-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .philosophy-image {
+        flex: 0 0 300px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .contact-wrapper {
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 0;
+        margin-left: -20px;
+        margin-right: -20px;
+        width: calc(100% + 40px);
+    }
+
+    .contact-form {
+        flex: 1 1 100%;
+        padding: 1.5rem 1.5rem;
+        width: 100%;
+    }
+
+    .contact-info {
+        flex: 1 1 100%;
+        padding: 1.5rem 1.5rem;
+        width: 100%;
+    }
+}
