@@ -47,7 +47,8 @@
                 <a href="/<%= alternateLang === 'ca' ? 'ca' : '' %>"
                    class="lang-link"
                    title="Switch to <%= alternateLangName %>">
-                    <%= alternateLangName %>
+                    <span class="lang-code"><%= alternateLang === 'ca' ? 'CA' : 'ES' %></span>
+                    <span class="lang-name"><%= lang === 'es' ? 'Català' : 'Castellano' %></span>
                 </a>
             </div>
 
@@ -109,10 +110,18 @@
             <div class="container">
                 <h2><%= t.servicios.title %></h2>
                 <div class="services-grid">
+                    <%
+                        const serviceImages = [
+                            'masaje-hombro.jpg',
+                            'terapia-acupuntura-primer-plano.jpg',
+                            'examen-rodilla-primer-plano.jpg',
+                            'entrenamiento-fisico-personas-mayores.jpg'
+                        ];
+                    %>
                     <% t.servicios.categories.forEach((category, index) => { %>
                         <div class="service-category">
                             <div class="service-image">
-                                <img src="/assets/masaje-hombro.jpg"
+                                <img src="/assets/<%= serviceImages[index] %>"
                                      alt="<%= t.images['service' + (index + 1)] %>">
                             </div>
                             <div class="service-info">
