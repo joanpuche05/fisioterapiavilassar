@@ -93,7 +93,7 @@ app.post('/', upload.none(), async (req, res) => {
       from: `Web fisioterapiavilassar <${process.env.SMTP_FROM_EMAIL}>`,
       to: process.env.RECIPIENT_EMAIL,
       replyTo: email,
-      subject: `Nuevo mensaje de contacto de ${nombre}`,
+      subject: `${translations.ca.contacto.form.emailSubject} ${nombre}`,
       html: emailHtml
     });
 
@@ -143,7 +143,7 @@ app.post('/es', upload.none(), async (req, res) => {
       from: `Web fisioterapiavilassar <${process.env.SMTP_FROM_EMAIL}>`,
       to: process.env.RECIPIENT_EMAIL,
       replyTo: email,
-      subject: `Nuevo mensaje de contacto de ${nombre}`,
+      subject: `${translations.es.contacto.form.emailSubject} ${nombre}`,
       html: emailHtml
     });
 
