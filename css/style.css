@@ -183,7 +183,7 @@ header .social-media a:hover svg {
 
 /* Hero Section */
 .hero {
-    background: url('../assets/cda177_ff0f23b7b7ab47e5a5504bddb2fee88a~mv2_d_7040_3733_s_4_2.jpg') no-repeat center center/cover;
+    background: url('../assets/hero-background.jpg') no-repeat center center/cover;
     background-attachment: scroll;
     height: 100vh;
     display: flex;
