@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= t.meta.description %>">
+
+    <!-- Language Alternates for SEO -->
+    <link rel="alternate" hreflang="<%= alternateLang %>"
+          href="http://fisioterapiavilassar.com<%= alternateLang === 'ca' ? '/ca' : '' %>">
+    <link rel="alternate" hreflang="x-default"
+          href="http://fisioterapiavilassar.com/">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://fisioterapiavilassar.com<%= lang === 'ca' ? '/ca' : '' %>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title><%= t.meta.title %></title>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="#inicio">
+                    <img src="/assets/logo.png" alt="AXL Espai De Salut Logo">
+                </a>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#filosofia"><%= t.nav.filosofia %></a></li>
+                    <li><a href="#servicios"><%= t.nav.servicios %></a></li>
+                    <li><a href="#contacto"><%= t.nav.contacto %></a></li>
+                </ul>
+            </nav>
+
+            <!-- Language Switcher -->
+            <div class="language-switcher">
+                <a href="/<%= alternateLang === 'ca' ? '' : 'es' %>"
+                   class="lang-link"
+                   title="Switch to <%= alternateLangName %>">
+                    <span class="lang-name"><%= lang === 'es' ? 'Català' : 'Castellano' %></span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="inicio" class="hero">
+            <div class="hero-text">
+                <h1><%= t.hero.title %></h1>
+                <div class="hero-divider"></div>
+                <p class="hero-subtitle"><%= t.hero.subtitle %></p>
+            </div>
+        </section>
+
+        <!-- FILOSOFIA SECTION -->
+        <section id="filosofia" class="philosophy">
+            <div class="container">
+                <h2><%= t.filosofia.title %></h2>
+                <div class="philosophy-content">
+                    <div class="philosophy-image">
+                        <img src="/assets/manos-apoyo.jpeg" alt="<%= t.images.philosophy %>">
+                    </div>
+                    <div class="philosophy-text">
+                        <p><%= t.filosofia.paragraph1 %></p>
+                        <p><%= t.filosofia.paragraph2 %></p>
+                        <blockquote>"<%= t.filosofia.quote %>"</blockquote>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="divider-image"></section>
+
+        <!-- SERVICIOS SECTION -->
+        <section id="servicios" class="services">
+            <div class="container">
+                <h2><%= t.servicios.title %></h2>
+                <div class="services-grid">
+                    <%
+                        const serviceImages = [
+                            'masaje-hombro.jpg',
+                            'terapia-acupuntura-primer-plano.jpg',
+                            'examen-rodilla-primer-plano.jpg',
+                            'entrenamiento-fisico-personas-mayores.jpg'
+                        ];
+                    %>
+                    <% t.servicios.categories.forEach((category, index) => { %>
+                        <div class="service-category">
+                            <div class="service-image">
+                                <img src="/assets/<%= serviceImages[index] %>"
+                                     alt="<%= t.images['service' + (index + 1)] %>">
+                            </div>
+                            <div class="service-info">
+                                <h3><%= category.name %></h3>
+                                <ul>
+                                    <% category.items.forEach(item => { %>
+                                        <li><%= item %></li>
+                                    <% }); %>
+                                </ul>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTO SECTION -->
+        <section id="contacto" class="contact">
+            <div class="container">
+                <h2><%= t.contacto.title %></h2>
+                <div class="contact-wrapper">
+                    <div class="contact-form">
+                        <h3><%= t.contacto.form.heading %></h3>
+                        <form action="#" method="POST">
+                            <div class="form-group">
+                                <label for="nombre"><%= t.contacto.form.labels.nombre %></label>
+                                <input type="text" id="nombre" name="nombre" placeholder="<%= t.contacto.form.placeholders.nombre %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><%= t.contacto.form.labels.email %></label>
+                                <input type="email" id="email" name="email" placeholder="<%= t.contacto.form.placeholders.email %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono"><%= t.contacto.form.labels.telefono %></label>
+                                <input type="tel" id="telefono" name="telefono" placeholder="<%= t.contacto.form.placeholders.telefono %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="mensaje"><%= t.contacto.form.labels.mensaje %></label>
+                                <textarea id="mensaje" name="mensaje" rows="5" placeholder="<%= t.contacto.form.placeholders.mensaje %>" required></textarea>
+                            </div>
+                            <button type="submit" class="cta-button"><%= t.contacto.form.button %></button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h3><%= t.contacto.info.heading %></h3>
+                        <p><strong><%= t.contacto.info.labels.direccion %></strong><br><%= t.contacto.info.details.direccion %></p>
+                        <p><strong><%= t.contacto.info.labels.telefono %></strong><br><a href="tel:<%= t.contacto.info.details.telefono %>"><%= t.contacto.info.details.telefono %></a></p>
+                        <p><strong><%= t.contacto.info.labels.email %></strong><br><a href="mailto:<%= t.contacto.info.details.email %>"><%= t.contacto.info.details.email %></a></p>
+                        <p><strong><%= t.contacto.info.labels.horario %></strong><br><%= t.contacto.info.details.horario %></p>
+                    </div>
+                </div>
+                <div class="map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2987.1234567890!2d2.3850000!3d41.5270000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a8a1850000000%3A0x1234567890!2sCarrer%20de%20Narc%C3%ADs%20Monturiol%2C%20156%2C%2008340%20Vilassar%20de%20Mar%2C%20Barcelona!5e0!3m2!1sen!2ses!4v1700000000000!5m2!1sen!2ses"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" title="<%= t.contacto.map.alt %>"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><%= t.footer.copyright %></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/script.js"></script>
+</body>
+</html>

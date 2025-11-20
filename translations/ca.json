@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "title": "Axl Espai De Salut - Fisioterapia a Vilassar de Mar",
+    "description": "Clínica de fisioterapia a Vilassar de Mar, Barcelona. Tractaments personalitzats per a esportistes, pacients oncològics i rehabilitació postquirúrgica."
+  },
+  "nav": {
+    "filosofia": "FILOSOFIA",
+    "servicios": "SERVEIS",
+    "contacto": "CONTACTE"
+  },
+  "header": {
+    "title": "Axl Espai De Salut"
+  },
+  "hero": {
+    "title": "BENVINGUTS A AXL ESPAI DE SALUT",
+    "subtitle": "cuidem de la teva salut"
+  },
+  "filosofia": {
+    "title": "FILOSOFIA",
+    "paragraph1": "A AXL espai de salut, treballem amb un enfocament global de la fisioterapia i el benestar. Atenim tant pacients privats com mutualitats, federacions esportives i persones accidentades de tràfic.",
+    "paragraph2": "Oferim tractaments personalitzats per a cada edat i situació: des d'esportistes que busquen optimitzar el seu rendiment, fins a persones que necessiten recuperar l'equilibri, la mobilitat o la força després d'una lesió o malaltia.",
+    "quote": "La fisioterapia no només tracta el cos, sinó que també nutreix l'esperit i la ment."
+  },
+  "servicios": {
+    "title": "SERVEIS",
+    "categories": [
+      {
+        "name": "TERÀPIA MANUAL",
+        "items": [
+          "Massatge terapèutic i de descàrrega muscular.",
+          "Teràpia manual per a contractures, cervicàlgies, lumbàlgies, etc.",
+          "Tècniques de mobilització i manipulació articular."
+        ]
+      },
+      {
+        "name": "TÈCNIQUES AVANÇADES",
+        "items": [
+          "Punció seca per a punts desencadenant i dolor miofascial.",
+          "Radiofreqüència (INDIBA®) per accelerar la recuperació i reduir la inflamació.",
+          "Ones de xoc per a tendinopaties i calcificacions.",
+          "Presoteràpia per millorar la circulació i la recuperació muscular"
+        ]
+      },
+      {
+        "name": "FISIOTERAPIA ESPECIALITZADA",
+        "items": [
+          "Tractament i acompanyament en pacients oncològics.",
+          "Programes específics per a esportistes (prevenció, rendiment i recuperació).",
+          "Rehabilitació pre i postquirúrgica."
+        ]
+      },
+      {
+        "name": "EXERCICI TERAPÈUTIC",
+        "items": [
+          "Recuperació de lesions musculars, articulars i tendinoses.",
+          "Reeducació de la marxa i de l'equilibri (persones grans o amb seqüeles neurològiques).",
+          "Exercicis terapèutics i pautes de reforç."
+        ]
+      }
+    ]
+  },
+  "contacto": {
+    "title": "CONTACTE",
+    "form": {
+      "heading": "Envia'ns un missatge",
+      "labels": {
+        "nombre": "Nom",
+        "email": "Email",
+        "telefono": "Telèfon",
+        "mensaje": "Missatge"
+      },
+      "button": "Enviar",
+      "placeholders": {
+        "nombre": "El teu nom",
+        "email": "tu@email.com",
+        "telefono": "+34 93 759 84 13",
+        "mensaje": "El teu missatge aquí..."
+      }
+    },
+    "info": {
+      "heading": "Informació de Contacte",
+      "labels": {
+        "direccion": "Adreça",
+        "telefono": "Telèfon",
+        "email": "Email",
+        "horario": "Horari"
+      },
+      "details": {
+        "direccion": "Carrer de Narcís Monturiol, 156, 08340 Vilassar de Mar, Barcelona",
+        "telefono": "+34 93 759 84 13",
+        "email": "axl@fisioterapiavilassar.com",
+        "horario": "Dilluns a Divendres, 9:00-13:00 i 15:00-20:00"
+      }
+    },
+    "map": {
+      "title": "Ubicació",
+      "alt": "Ubicació d'Axl Espai De Salut a Google Maps"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Axl Espai De Salut. Tots els drets reservats."
+  },
+  "images": {
+    "hero": "Secció heroi - Benvinguts",
+    "service1": "Teràpia manual",
+    "service2": "Tècniques avançades",
+    "service3": "Fisioterapia especialitzada",
+    "service4": "Exercici terapèutic",
+    "philosophy": "Filosofia d'Axl Espai De Salut"
+  }
+}

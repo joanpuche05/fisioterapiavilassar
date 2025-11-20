@@ -5,10 +5,8 @@
 /* Reset and Base Styles */
 :root {
     /* Colors */
-    --primary-color: #0d2c40;
-    /* Dark Blue/Teal */
-    --secondary-color: #4fbdb3;
-    /* A lighter teal for accents */
+    --primary-color: #0d2c40; /* Dark Blue/Teal */
+    --secondary-color: #4fbdb3; /* A lighter teal for accents */
     --text-color: #333;
     --background-color: #ffffff;
     --light-gray-color: #f4f4f4;
@@ -40,12 +38,7 @@ body {
     padding: 0 20px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family-default);
     margin-bottom: 1rem;
 }
@@ -71,9 +64,7 @@ h3 {
     line-height: 1.4;
 }
 
-h4,
-h5,
-h6 {
+h4, h5, h6 {
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.5;
@@ -84,18 +75,15 @@ a {
     color: var(--secondary-color);
 }
 
-strong,
-b {
+strong, b {
     font-weight: 700;
 }
 
-em,
-i {
+em, i {
     font-style: italic;
 }
 
-code,
-pre {
+code, pre {
     font-family: var(--font-family-monospace);
     font-size: 14px;
 }
@@ -129,7 +117,7 @@ section {
 /* Header */
 header {
     background-color: var(--background-color);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: fixed;
     top: 0;
     left: 0;
@@ -139,9 +127,17 @@ header {
 
 header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: 80px;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    position: relative;
+}
+
+header .logo {
+    position: absolute;
+    left: 20px;
 }
 
 header .logo a {
@@ -153,19 +149,26 @@ header .logo img {
     width: auto;
 }
 
+header nav {
+    flex-shrink: 1;
+    min-width: 0;
+}
+
 header nav ul {
     display: flex;
+    flex-shrink: 1;
 }
 
 header nav ul li {
-    margin-left: 20px;
+    margin-left: 15px;
+    white-space: nowrap;
 }
 
 header nav ul li a {
     font-size: 15px;
     font-weight: 350;
     color: #a89080;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     transition: color 0.3s ease;
 }
@@ -174,22 +177,46 @@ header nav ul li a:hover {
     color: var(--secondary-color);
 }
 
-header .social-media {
+/* Language Switcher */
+.language-switcher {
     display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+}
+
+.lang-link {
+    color: #a89080;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.6rem 0.9rem;
+    border-radius: 20px;
+    border: 1px solid #d4cfc8;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: inline-flex;
+    gap: 0.3rem;
     align-items: center;
 }
 
-header .social-media a {
-    margin-left: 15px;
+.lang-code {
+    display: none;
 }
 
-header .social-media svg {
-    fill: var(--primary-color);
-    transition: fill 0.3s ease;
+.lang-name {
+    font-weight: 400;
+    font-size: 0.65rem;
+    display: inline-block;
 }
 
-header .social-media a:hover svg {
-    fill: var(--secondary-color);
+.lang-link:hover {
+    background-color: #a89080;
+    color: white;
+    border-color: #a89080;
 }
 
 
@@ -203,8 +230,7 @@ header .social-media a:hover svg {
     justify-content: center;
     text-align: center;
     color: white;
-    padding-top: 80px;
-    /* Offset for fixed header */
+    padding-top: 80px; /* Offset for fixed header */
 }
 
 .hero::before {
@@ -290,7 +316,7 @@ header .social-media a:hover svg {
     padding: 0;
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
 .service-category:nth-child(odd) {
@@ -387,7 +413,7 @@ header .social-media a:hover svg {
     width: 300px;
     height: 300px;
     object-fit: cover;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 /* Divider Image Section */
@@ -423,8 +449,7 @@ header .social-media a:hover svg {
     border-radius: 0;
 }
 
-.contact-form h3,
-.contact-info h3 {
+.contact-form h3, .contact-info h3 {
     font-size: 1.2rem;
     font-weight: 300;
     color: white;
@@ -458,7 +483,7 @@ header .social-media a:hover svg {
     font-weight: 300;
     border: none;
     border-radius: 0;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255,255,255,0.1);
     color: white;
 }
 
@@ -466,7 +491,7 @@ header .social-media a:hover svg {
 .form-group textarea::placeholder {
     font-size: 13px;
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255,255,255,0.8);
 }
 
 .form-group textarea {
@@ -540,14 +565,28 @@ footer p {
     header nav ul li {
         margin: 5px 10px;
     }
-
+    
     header .social-media {
         margin-top: 10px;
     }
 
+    .language-switcher {
+        gap: 0.5rem;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .lang-link {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.65rem;
+    }
+
+    .lang-name {
+        display: none;
+    }
+
     .hero {
-        padding-top: 160px;
-        /* Adjust for taller header */
+        padding-top: 160px; /* Adjust for taller header */
     }
 
     body {
