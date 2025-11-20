@@ -16,7 +16,7 @@ Navigate to your project directory and run:
 
 ```bash
 cd /Users/joanpuche/Documents/Code/fisioterapiavilassar.com
-php -S localhost:4321
+php -S localhost:4321 router.php
 ```
 
 Then visit in your browser:
@@ -71,11 +71,12 @@ Edit this file if you need to change PHP settings like:
 
 ### For Local Development:
 
-When using `php -S localhost:4321`, access URLs directly:
+When using `php -S localhost:4321 router.php`, the `router.php` script simulates `.htaccess` behavior:
 - `http://localhost:4321/` → Catalan version (default)
-- `http://localhost:4321/es?lang=es` → Spanish version (pass as query parameter)
+- `http://localhost:4321/es` → Spanish version (rewritten internally)
 
-Or modify `index.php` temporarily during development to test different languages.
+If you run without `router.php`, you must access URLs directly:
+- `http://localhost:4321/es?lang=es`
 
 ### For Production Hosting:
 

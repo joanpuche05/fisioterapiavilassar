@@ -55,7 +55,7 @@ Mobile breakpoint: `768px` (max-width)
 
 The development server runs on **port 4321** using:
 ```bash
-npx http-server -p 4321
+php -S localhost:4321 router.php
 ```
 
 The site will be accessible at `http://localhost:4321`
