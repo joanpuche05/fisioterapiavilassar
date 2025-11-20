@@ -127,11 +127,17 @@ header {
 
 header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: 80px;
     flex-wrap: nowrap;
     gap: 1rem;
+    position: relative;
+}
+
+header .logo {
+    position: absolute;
+    left: 20px;
 }
 
 header .logo a {
@@ -174,6 +180,8 @@ header nav ul li a:hover {
 header .social-media {
     display: flex;
     align-items: center;
+    position: absolute;
+    right: 80px;
 }
 
 header .social-media a {
@@ -194,8 +202,8 @@ header .social-media a:hover svg {
     display: flex;
     gap: 1rem;
     align-items: center;
-    margin-left: auto;
-    margin-right: 2rem;
+    position: absolute;
+    right: 20px;
 }
 
 .lang-link {
