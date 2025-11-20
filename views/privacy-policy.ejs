@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= t.meta.description %>">
+
+    <!-- Language Alternates for SEO -->
+    <link rel="alternate" hreflang="<%= alternateLang %>"
+          href="http://fisioterapiavilassar.com<%= alternateLang === 'ca' ? '/ca/politica-de-privacitat' : '/es/politica-de-privacidad' %>">
+    <link rel="alternate" hreflang="x-default"
+          href="http://fisioterapiavilassar.com/politica-de-privacitat">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://fisioterapiavilassar.com<%= lang === 'ca' ? '/politica-de-privacitat' : '/es/politica-de-privacidad' %>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title><%= t.privacyPolicy.title %> | <%= t.header.title %></title>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="<%= lang === 'es' ? '/es' : '/' %>">
+                    <img src="/assets/logo.png" alt="AXL Espai De Salut Logo">
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Desktop Navigation -->
+            <nav>
+                <ul>
+                    <li><a href="/<%= lang %>#filosofia"><%= t.nav.filosofia %></a></li>
+                    <li><a href="/<%= lang %>#servicios"><%= t.nav.servicios %></a></li>
+                    <li><a href="/<%= lang %>#contacto"><%= t.nav.contacto %></a></li>
+                </ul>
+            </nav>
+
+            <!-- Mobile Navigation Menu -->
+            <nav id="mobile-menu" class="mobile-menu">
+                <ul>
+                    <li><a href="/<%= lang %>#filosofia"><%= t.nav.filosofia %></a></li>
+                    <li><a href="/<%= lang %>#servicios"><%= t.nav.servicios %></a></li>
+                    <li><a href="/<%= lang %>#contacto"><%= t.nav.contacto %></a></li>
+                </ul>
+                <!-- Language Switcher in Menu -->
+                <div class="language-switcher-mobile">
+                    <a href="/<%= alternateLang %>/politica-de-privac<%= alternateLang === 'ca' ? 'itat' : 'idad' %>"
+                       class="lang-link"
+                       title="Switch to <%= alternateLangName %>">
+                        <span class="lang-name"><%= lang === 'es' ? 'Català' : 'Castellano' %></span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Language Switcher (Desktop only) -->
+            <div class="language-switcher">
+                <a href="/<%= alternateLang %>/politica-de-privac<%= alternateLang === 'ca' ? 'itat' : 'idad' %>"
+                   class="lang-link"
+                   title="Switch to <%= alternateLangName %>">
+                    <span class="lang-name"><%= lang === 'es' ? 'Català' : 'Castellano' %></span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div id="menu-overlay" class="menu-overlay"></div>
+
+    <main>
+        <!-- PRIVACY POLICY SECTION -->
+        <section class="privacy-policy-content">
+            <div class="container">
+                <h1><%= t.privacyPolicy.title %></h1>
+
+                <% t.privacyPolicy.sections.forEach(function(section) { %>
+                    <div class="privacy-section">
+                        <h2><%= section.title %></h2>
+                        <% section.content.split('\n\n').forEach(function(paragraph) { %>
+                            <p><%= paragraph %></p>
+                        <% }); %>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><%= t.footer.copyright %></p>
+            <p>
+                <a href="/<%= lang %>/politica-de-privac<%= lang === 'ca' ? 'itat' : 'idad' %>" class="footer-link">
+                    <%= t.footer.privacyPolicy %>
+                </a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/script.js"></script>
+</body>
+</html>
