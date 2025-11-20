@@ -23,23 +23,23 @@ app.use(express.json());
 
 // Routes
 
-// Spanish version (default)
+// Catalan version (default)
 app.get('/', (req, res) => {
-  res.render('index', {
-    t: translations.es,
-    lang: 'es',
-    alternateLang: 'ca',
-    alternateLangName: 'Català'
-  });
-});
-
-// Catalan version
-app.get('/ca', (req, res) => {
   res.render('index', {
     t: translations.ca,
     lang: 'ca',
     alternateLang: 'es',
     alternateLangName: 'Español'
+  });
+});
+
+// Spanish version
+app.get('/es', (req, res) => {
+  res.render('index', {
+    t: translations.es,
+    lang: 'es',
+    alternateLang: 'ca',
+    alternateLangName: 'Català'
   });
 });
 
@@ -58,6 +58,6 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 4321;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Spanish: http://localhost:${PORT}/`);
-  console.log(`Catalan: http://localhost:${PORT}/ca`);
+  console.log(`Catalan (default): http://localhost:${PORT}/`);
+  console.log(`Spanish: http://localhost:${PORT}/es`);
 });
