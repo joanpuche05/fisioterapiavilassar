@@ -201,33 +201,34 @@ header .social-media a:hover svg {
 .lang-link {
     color: #a89080;
     text-decoration: none;
-    font-size: 13px;
-    font-weight: 350;
-    padding: 0;
-    border-radius: 0;
-    border: none;
-    background-color: transparent;
-    transition: color 0.3s ease;
-    letter-spacing: 1px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.6rem 0.9rem;
+    border-radius: 20px;
+    border: 1px solid #d4cfc8;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     display: inline-flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
     align-items: center;
 }
 
 .lang-code {
-    font-weight: 600;
-    display: inline-block;
+    display: none;
 }
 
 .lang-name {
-    font-weight: 350;
-    font-size: 13px;
+    font-weight: 400;
+    font-size: 0.65rem;
     display: inline-block;
 }
 
 .lang-link:hover {
-    color: var(--secondary-color);
+    background-color: #a89080;
+    color: white;
+    border-color: #a89080;
 }
 
 
