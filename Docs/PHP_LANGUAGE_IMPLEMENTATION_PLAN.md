@@ -2,13 +2,13 @@
 
 ## Overview
 
-This document outlines the implementation plan for adding Spanish/Catalan language support to fisioterapiavilassar.com using **PHP** (instead of Node.js/Express). The goal is to maintain a single HTML template while serving separate URLs for SEO purposes: `/` for Spanish and `/ca` for Catalan.
+This document outlines the implementation plan for adding Catalan/Spanish language support to fisioterapiavilassar.com using **PHP** (instead of Node.js/Express). The goal is to maintain a single HTML template while serving separate URLs for SEO purposes: `/` for Catalan (default) and `/es` for Spanish.
 
 **Why PHP?** The hosting server only supports PHP, not Node.js. This implementation maintains the same architecture and simplicity as the Node.js plan but uses PHP's built-in templating capabilities.
 
 **Implementation Approach:** This is a two-phase implementation:
-1. **Phase A (This First):** Implement the full technical setup and functionality with Spanish content and placeholder Catalan translations
-2. **Phase B (After testing):** Create proper Catalan translations based on Spanish content
+1. **Phase A (This First):** Implement the full technical setup and functionality with Catalan as default and Spanish translations as secondary
+2. **Phase B (After testing):** Finalize and optimize translations
 
 ---
 
@@ -23,8 +23,8 @@ This document outlines the implementation plan for adding Spanish/Catalan langua
 - **Development Server:** PHP built-in server or existing hosting
 
 ### URL Structure
-- `http://localhost:4321/` → Spanish version (`index.php`)
-- `http://localhost:4321/ca` → Catalan version (`ca/index.php`)
+- `http://fisioterapiavilassar.com/` → Catalan version (default)
+- `http://fisioterapiavilassar.com/es` → Spanish version
 
 ### Key Principles
 1. **Single Source of Truth** - One PHP template serves both languages
@@ -41,28 +41,24 @@ This document outlines the implementation plan for adding Spanish/Catalan langua
 ```
 fisioterapiavilassar.com/
 ├── .htaccess                          # URL rewriting rules (new)
-├── index.php                          # Spanish version entry point (new)
-├── ca/
-│   ├── .htaccess                      # Catalan URL rules (new)
-│   └── index.php                      # Catalan version entry point (new)
+├── index.php                          # Main entry point (handles both languages)
 ├── includes/
 │   ├── template.php                   # Main HTML template (new)
 │   └── functions.php                  # Helper functions (new)
 ├── translations/
-│   ├── es.json                        # Spanish translations (new)
-│   └── ca.json                        # Catalan translations (new)
+│   ├── ca.json                        # Catalan translations (default) (new)
+│   └── es.json                        # Spanish translations (secondary) (new)
 ├── css/                               # Existing CSS (unchanged)
 │   └── style.css
 ├── js/                                # Existing JS (unchanged)
 │   └── script.js
 ├── assets/                            # Existing images (unchanged)
 │   ├── logo.png
-│   ├── hero-bg.jpg
-│   ├── service1.jpg
-│   ├── service2.jpg
-│   ├── service3.jpg
-│   ├── service4.jpg
-│   └── philosophy.jpg
+│   ├── Manos que ofrecen apoyo.jpeg
+│   ├── Masaje de hombro.jpg
+│   ├── Terapia de Acupuntura Primer Plano.jpg
+│   ├── Examen de rodilla en primer plano.jpg
+│   └── Entrenamiento físico para personas mayores.jpg
 ├── Docs/
 │   ├── PHP_LANGUAGE_IMPLEMENTATION_PLAN.md  # This file
 │   ├── LANGUAGE_IMPLEMENTATION_PLAN.md      # Original Node.js plan
@@ -70,6 +66,10 @@ fisioterapiavilassar.com/
 │   └── FONT_SPECIFICATIONS.md               # Typography guidelines
 └── index.html                         # Old static file (to be removed or archived)
 ```
+
+**URL Routing:**
+- `/` (root) → Catalan version (default) → `index.php`
+- `/es` → Spanish version → `index.php?lang=es` (via .htaccess rewrite)
 
 ---
 
@@ -81,12 +81,13 @@ fisioterapiavilassar.com/
 ```bash
 mkdir -p includes
 mkdir -p translations
-mkdir -p ca
 ```
+
+**Note:** No `/ca` or `/es` subdirectories needed. All files are in root with URL routing via `.htaccess`.
 
 #### 1.2 Create .htaccess (Root Directory)
 
-**Purpose:** Clean URLs, redirect handling, and UTF-8 encoding
+**Purpose:** URL rewriting for language routing, UTF-8 encoding, and security
 
 **File: `.htaccess`**
 ```apache
@@ -98,9 +99,6 @@ AddDefaultCharset UTF-8
 
 # Prevent directory listing
 Options -Indexes
-
-# Custom error pages (optional)
-# ErrorDocument 404 /404.php
 
 # Security headers
 <IfModule mod_headers.c>
@@ -114,43 +112,154 @@ Options -Indexes
     ExpiresActive On
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
 </IfModule>
 
-# Rewrite rules
-# If the request is for the root and index.php doesn't exist, serve index.php
+# Language routing rules
+# Rewrite /es to index.php with language parameter
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^$ index.php [L]
+RewriteRule ^es/?$ index.php?lang=es [QSA,L]
 
-# Don't rewrite requests for actual files/directories
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-```
-
-#### 1.3 Create .htaccess (Catalan Directory)
-
-**File: `ca/.htaccess`**
-```apache
-# Enable URL rewriting for Catalan subdirectory
-RewriteEngine On
-
-# Force UTF-8 encoding
-AddDefaultCharset UTF-8
-
-# Rewrite /ca to /ca/index.php
+# Rewrite /es/* to index.php (for any subpaths under /es)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^$ index.php [L]
+RewriteRule ^es/(.*)$ index.php?lang=es [QSA,L]
+
+# Default root to index.php (Catalan - default language)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ index.php [QSA,L]
 ```
+
+**How it works:**
+- Request to `/` → Served by `index.php` (no lang parameter = Catalan by default)
+- Request to `/es` → Rewritten to `index.php?lang=es`
+- Requests for actual files and directories are not rewritten (CSS, JS, images pass through)
 
 ---
 
 ### Phase 2: Create Translation Files
 
-#### 2.1 Spanish Translations (translations/es.json)
+#### 2.1 Catalan Translations (translations/ca.json) - DEFAULT
+
+**File: `translations/ca.json`**
+
+```json
+{
+  "meta": {
+    "title": "Axl Espai De Salut - Fisioteràpia a Vilassar de Mar",
+    "description": "Clínica de fisioteràpia a Vilassar de Mar, Barcelona. Tractaments personalitzats, teràpia manual, tècniques avançades i exercici terapèutic."
+  },
+  "nav": {
+    "filosofia": "FILOSOFIA",
+    "servicios": "SERVEIS",
+    "contacto": "CONTACTE"
+  },
+  "hero": {
+    "title": "BENVINGUTS A AXL ESPAI DE SALUT",
+    "subtitle": "cuidem de la teva salut"
+  },
+  "filosofia": {
+    "title": "FILOSOFIA",
+    "paragraph1": "A AXL espai de salut, treballem amb un enfocament global de la fisioteràpia i el benestar. Atenem tant a pacients privats com a mútues, federacions esportives i persones accidentades de trànsit.",
+    "paragraph2": "Oferim tractaments personalitzats per a cada edat i situació: des d'esportistes que busquen optimitzar el seu rendiment, fins a persones que necessiten recuperar l'equilibri, la mobilitat o la força després d'una lesió o malaltia.",
+    "quote": "La fisioteràpia no només tracta el cos, sinó que també nodreix l'esperit i la ment."
+  },
+  "servicios": {
+    "title": "SERVEIS",
+    "categories": [
+      {
+        "name": "TERÀPIA MANUAL",
+        "items": [
+          "Massatge terapèutic i de descàrrega muscular.",
+          "Teràpia manual per a contractures, cervicàlgies, lumbàlgies, etc.",
+          "Tècniques de mobilització i manipulació articular."
+        ]
+      },
+      {
+        "name": "TÈCNIQUES AVANÇADES",
+        "items": [
+          "Punció seca per a punts gallet i dolor miofascial.",
+          "Radiofreqüència (INDIBA®) per accelerar la recuperació i reduir inflamació.",
+          "Ones de xoc per a tendinopaties i calcificacions.",
+          "Pressoteràpia per millorar la circulació i la recuperació muscular"
+        ]
+      },
+      {
+        "name": "FISIOTERÀPIA ESPECIALITZADA",
+        "items": [
+          "Tractament i acompanyament en pacients oncològics.",
+          "Programes específics per a esportistes (prevenció, rendiment i recuperació).",
+          "Rehabilitació pre i postquirúrgica."
+        ]
+      },
+      {
+        "name": "EXERCICI TERAPÈUTIC",
+        "items": [
+          "Recuperació de lesions musculars, articulars i tendinoses.",
+          "Reeducació de la marxa i de l'equilibri (persones grans o amb seqüeles neurològiques).",
+          "Exercicis terapèutics i pautes d'enfortiment."
+        ]
+      }
+    ]
+  },
+  "contacto": {
+    "title": "CONTACTE",
+    "form": {
+      "heading": "Envia'ns un missatge",
+      "labels": {
+        "nombre": "Nom",
+        "email": "Email",
+        "telefono": "Telèfon",
+        "mensaje": "Missatge"
+      },
+      "button": "Enviar",
+      "placeholders": {
+        "nombre": "El teu nom",
+        "email": "tu@email.com",
+        "telefono": "+34 93 759 84 13",
+        "mensaje": "El teu missatge aquí..."
+      }
+    },
+    "info": {
+      "heading": "Informació de Contacte",
+      "labels": {
+        "direccion": "Adreça",
+        "telefono": "Telèfon",
+        "email": "Email",
+        "horario": "Horari"
+      },
+      "details": {
+        "direccion": "Carrer de Narcís Monturiol, 156, 08340 Vilassar de Mar, Barcelona",
+        "telefono": "+34 93 759 84 13",
+        "email": "axl@fisioterapiavilassar.com",
+        "horario": "Dilluns a Divendres, 9:00-13:00 i 15:00-20:00"
+      }
+    },
+    "map": {
+      "title": "Ubicació",
+      "alt": "Ubicació d'Axl Espai De Salut a Google Maps"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Axl Espai De Salut. Tots els drets reservats."
+  },
+  "images": {
+    "logo": "AXL Espai De Salut Logo",
+    "hero": "Secció heroi - Benvinguts",
+    "service1": "Teràpia manual",
+    "service2": "Tècniques avançades",
+    "service3": "Fisioteràpia especialitzada",
+    "service4": "Exercici terapèutic",
+    "philosophy": "Filosofia d'Axl Espai De Salut"
+  }
+}
+```
+
+#### 2.2 Spanish Translations (translations/es.json) - SECONDARY
 
 **File: `translations/es.json`**
 
@@ -256,7 +365,7 @@ RewriteRule ^$ index.php [L]
   },
   "images": {
     "logo": "AXL Espai De Salut Logo",
-    "hero": "Hero section - Bienvenidos",
+    "hero": "Sección hero - Bienvenidos",
     "service1": "Terapia manual",
     "service2": "Técnicas avanzadas",
     "service3": "Fisioterapia especializada",
@@ -265,126 +374,6 @@ RewriteRule ^$ index.php [L]
   }
 }
 ```
-
-#### 2.2 Catalan Translations (translations/ca.json) - PLACEHOLDER
-
-**Note:** For Phase A (functionality implementation), use placeholder Catalan content. After Phase A is complete and tested, replace with proper translations.
-
-**File: `translations/ca.json`**
-
-```json
-{
-  "meta": {
-    "title": "[CA] Axl Espai De Salut - Fisioteràpia a Vilassar de Mar",
-    "description": "[CA] Clínica de fisioteràpia a Vilassar de Mar, Barcelona"
-  },
-  "nav": {
-    "filosofia": "[CA] FILOSOFIA",
-    "servicios": "[CA] SERVEIS",
-    "contacto": "[CA] CONTACTE"
-  },
-  "hero": {
-    "title": "[CA] BENVINGUTS A AXL ESPAI DE SALUT",
-    "subtitle": "[CA] cuidem de la teva salut"
-  },
-  "filosofia": {
-    "title": "[CA] FILOSOFIA",
-    "paragraph1": "[CA] A AXL espai de salut, treballem amb un enfocament global de la fisioteràpia i el benestar. Atenem tant a pacients privats com a mútues, federacions esportives i persones accidentades de trànsit.",
-    "paragraph2": "[CA] Oferim tractaments personalitzats per a cada edat i situació: des d'esportistes que busquen optimitzar el seu rendiment, fins a persones que necessiten recuperar l'equilibri, la mobilitat o la força després d'una lesió o malaltia.",
-    "quote": "[CA] La fisioteràpia no només tracta el cos, sinó que també nodreix l'esperit i la ment."
-  },
-  "servicios": {
-    "title": "[CA] SERVEIS",
-    "categories": [
-      {
-        "name": "[CA] TERÀPIA MANUAL",
-        "items": [
-          "[CA] Massatge terapèutic i de descàrrega muscular.",
-          "[CA] Teràpia manual per a contractures, cervicàlgies, lumbàlgies, etc.",
-          "[CA] Tècniques de mobilització i manipulació articular."
-        ]
-      },
-      {
-        "name": "[CA] TÈCNIQUES AVANÇADES",
-        "items": [
-          "[CA] Punció seca per a punts gallet i dolor miofascial.",
-          "[CA] Radiofreqüència (INDIBA®) per accelerar la recuperació i reduir inflamació.",
-          "[CA] Ones de xoc per a tendinopaties i calcificacions.",
-          "[CA] Pressoteràpia per millorar la circulació i la recuperació muscular"
-        ]
-      },
-      {
-        "name": "[CA] FISIOTERÀPIA ESPECIALITZADA",
-        "items": [
-          "[CA] Tractament i acompanyament en pacients oncològics.",
-          "[CA] Programes específics per a esportistes (prevenció, rendiment i recuperació).",
-          "[CA] Rehabilitació pre i postquirúrgica."
-        ]
-      },
-      {
-        "name": "[CA] EXERCICI TERAPÈUTIC",
-        "items": [
-          "[CA] Recuperació de lesions musculars, articulars i tendinoses.",
-          "[CA] Reeducació de la marxa i de l'equilibri (persones grans o amb seqüeles neurològiques).",
-          "[CA] Exercicis terapèutics i pautes d'enfortiment."
-        ]
-      }
-    ]
-  },
-  "contacto": {
-    "title": "[CA] CONTACTE",
-    "form": {
-      "heading": "[CA] Envia'ns un missatge",
-      "labels": {
-        "nombre": "[CA] Nom",
-        "email": "[CA] Email",
-        "telefono": "[CA] Telèfon",
-        "mensaje": "[CA] Missatge"
-      },
-      "button": "[CA] Enviar",
-      "placeholders": {
-        "nombre": "[CA] El teu nom",
-        "email": "[CA] tu@email.com",
-        "telefono": "[CA] +34 93 759 84 13",
-        "mensaje": "[CA] El teu missatge aquí..."
-      }
-    },
-    "info": {
-      "heading": "[CA] Informació de Contacte",
-      "labels": {
-        "direccion": "[CA] Adreça",
-        "telefono": "[CA] Telèfon",
-        "email": "[CA] Email",
-        "horario": "[CA] Horari"
-      },
-      "details": {
-        "direccion": "Carrer de Narcís Monturiol, 156, 08340 Vilassar de Mar, Barcelona",
-        "telefono": "+34 93 759 84 13",
-        "email": "axl@fisioterapiavilassar.com",
-        "horario": "[CA] Dilluns a Divendres, 9:00-13:00 i 15:00-20:00"
-      }
-    },
-    "map": {
-      "title": "[CA] Ubicació",
-      "alt": "[CA] Ubicació d'Axl Espai De Salut a Google Maps"
-    }
-  },
-  "footer": {
-    "copyright": "[CA] © 2025 Axl Espai De Salut. Tots els drets reservats."
-  },
-  "images": {
-    "logo": "[CA] AXL Espai De Salut Logo",
-    "hero": "[CA] Secció heroi - Benvinguts",
-    "service1": "[CA] Teràpia manual",
-    "service2": "[CA] Tècniques avançades",
-    "service3": "[CA] Fisioteràpia especialitzada",
-    "service4": "[CA] Exercici terapèutic",
-    "philosophy": "[CA] Filosofia d'Axl Espai De Salut"
-  }
-}
-```
-
-**After Phase A Testing:** Replace this placeholder JSON with proper Catalan translations created from the Spanish content.
 
 ---
 
@@ -495,6 +484,8 @@ function baseUrl() {
 
 **Purpose:** Single source of truth for HTML structure, uses PHP variables for all content
 
+**Note:** Path handling is simplified since both languages use the same root directory
+
 **File: `includes/template.php`**
 
 ```php
@@ -506,12 +497,12 @@ function baseUrl() {
     <meta name="description" content="<?php e($t['meta']['description']); ?>">
 
     <!-- Language Alternates for SEO -->
-    <link rel="alternate" hreflang="es" href="<?php echo baseUrl(); ?>/">
-    <link rel="alternate" hreflang="ca" href="<?php echo baseUrl(); ?>/ca">
+    <link rel="alternate" hreflang="ca" href="<?php echo baseUrl(); ?>/">
+    <link rel="alternate" hreflang="es" href="<?php echo baseUrl(); ?>/es">
     <link rel="alternate" hreflang="x-default" href="<?php echo baseUrl(); ?>/">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="<?php echo baseUrl(); ?><?php echo $lang === 'ca' ? '/ca' : ''; ?>">
+    <link rel="canonical" href="<?php echo baseUrl(); ?><?php echo $lang === 'es' ? '/es' : ''; ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -519,7 +510,7 @@ function baseUrl() {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="<?php echo $lang === 'ca' ? '../css/style.css' : 'css/style.css'; ?>">
+    <link rel="stylesheet" href="css/style.css">
 
     <title><?php e($t['meta']['title']); ?></title>
 </head>
@@ -529,7 +520,7 @@ function baseUrl() {
         <div class="container">
             <div class="logo">
                 <a href="#inicio">
-                    <img src="<?php echo $lang === 'ca' ? '../assets/logo.png' : './assets/logo.png'; ?>"
+                    <img src="assets/logo.png"
                          alt="<?php e($t['images']['logo']); ?>">
                 </a>
             </div>
@@ -543,11 +534,11 @@ function baseUrl() {
 
             <!-- Language Switcher -->
             <div class="language-switcher">
-                <a href="<?php echo $alternateLangUrl; ?>"
-                   class="lang-link"
-                   title="<?php echo $alternateLangName; ?>">
-                    <?php echo $alternateLangName; ?>
-                </a>
+                <?php if ($lang === 'ca'): ?>
+                    <a href="/es" class="lang-link" title="Español">Español</a>
+                <?php else: ?>
+                    <a href="/" class="lang-link" title="Català">Català</a>
+                <?php endif; ?>
             </div>
 
             <!-- Social Media -->
@@ -584,7 +575,7 @@ function baseUrl() {
                 <h2><?php e($t['filosofia']['title']); ?></h2>
                 <div class="philosophy-content">
                     <div class="philosophy-image">
-                        <img src="<?php echo $lang === 'ca' ? '../assets/Manos que ofrecen apoyo.jpeg' : 'assets/Manos que ofrecen apoyo.jpeg'; ?>"
+                        <img src="assets/Manos que ofrecen apoyo.jpeg"
                              alt="<?php e($t['images']['philosophy']); ?>">
                     </div>
                     <div class="philosophy-text">
@@ -614,9 +605,8 @@ function baseUrl() {
                                     2 => 'Examen de rodilla en primer plano.jpg',
                                     3 => 'Entrenamiento físico para personas mayores.jpg'
                                 ];
-                                $imagePath = ($lang === 'ca' ? '../' : './') . 'assets/' . $imageMap[$index];
                                 ?>
-                                <img src="<?php echo $imagePath; ?>"
+                                <img src="assets/<?php echo $imageMap[$index]; ?>"
                                      alt="<?php e($t['images']['service' . ($index + 1)]); ?>">
                             </div>
                             <div class="service-info">
@@ -730,16 +720,18 @@ function baseUrl() {
     </footer>
 
     <!-- Scripts -->
-    <script src="<?php echo $lang === 'ca' ? '../js/script.js' : 'js/script.js'; ?>"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
 ```
 
 ---
 
-### Phase 5: Create Entry Point Files
+### Phase 5: Create Main Entry Point
 
-#### 5.1 Spanish Entry Point (Root index.php)
+#### 5.1 Main Entry Point (index.php)
+
+**Purpose:** Single entry point that handles both language versions based on URL routing
 
 **File: `index.php`**
 
@@ -755,49 +747,22 @@ header('Content-Type: text/html; charset=utf-8');
 // Include helper functions
 require_once __DIR__ . '/includes/functions.php';
 
-// Load Spanish translations
-$t = loadTranslations('es');
+// Detect language from URL parameter
+// URL rewriting via .htaccess passes ?lang=es for /es requests
+$lang = isset($_GET['lang']) && $_GET['lang'] === 'es' ? 'es' : 'ca';
 
-// Set language variables
-$lang = 'es';
-$alternateLang = 'ca';
-$alternateLangName = 'Català';
-$alternateLangUrl = '/ca';
+// Load appropriate translations (default to Catalan)
+$t = loadTranslations($lang);
 
 // Include main template
 include __DIR__ . '/includes/template.php';
 ?>
 ```
 
-#### 5.2 Catalan Entry Point (ca/index.php)
-
-**File: `ca/index.php`**
-
-```php
-<?php
-// Set error reporting for development (disable in production)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Set UTF-8 encoding
-header('Content-Type: text/html; charset=utf-8');
-
-// Include helper functions (go up one directory)
-require_once __DIR__ . '/../includes/functions.php';
-
-// Load Catalan translations
-$t = loadTranslations('ca');
-
-// Set language variables
-$lang = 'ca';
-$alternateLang = 'es';
-$alternateLangName = 'Español';
-$alternateLangUrl = '/';
-
-// Include main template (go up one directory)
-include __DIR__ . '/../includes/template.php';
-?>
-```
+**How it works:**
+- User visits `/` → No lang parameter → `$lang = 'ca'` → Catalan page loaded
+- User visits `/es` → `.htaccess` rewrites to `index.php?lang=es` → `$lang = 'es'` → Spanish page loaded
+- All requests to actual files (CSS, JS, images) pass through unchanged
 
 ---
 
@@ -855,22 +820,21 @@ Add to the end of your existing `css/style.css` file:
 
 ---
 
-### Phase 7: Migration Checklist
+### Phase 6: Migration Checklist
 
-#### 7.1 Implementation Steps
+#### 6.1 Implementation Steps
 
-- [ ] Create directory structure (`includes/`, `translations/`, `ca/`)
-- [ ] Create `.htaccess` files (root and `ca/`)
+- [ ] Create directory structure (`includes/`, `translations/`)
+- [ ] Create `.htaccess` file (root only, no subdirectories)
+- [ ] Create `translations/ca.json` with Catalan content (default)
 - [ ] Create `translations/es.json` with Spanish content
-- [ ] Create `translations/ca.json` with placeholder Catalan content
 - [ ] Create `includes/functions.php` with helper functions
 - [ ] Create `includes/template.php` with main HTML template
-- [ ] Create `index.php` (Spanish entry point)
-- [ ] Create `ca/index.php` (Catalan entry point)
+- [ ] Create `index.php` (main entry point for both languages)
 - [ ] Update `css/style.css` with language switcher styles
-- [ ] Move existing CSS/JS/assets to proper locations (should already be in place)
+- [ ] Verify existing CSS/JS/assets are in proper locations
 - [ ] Test server locally using PHP built-in server
-- [ ] Test both routes: `/` and `/ca`
+- [ ] Test both routes: `/` (Catalan) and `/es` (Spanish)
 - [ ] Test language switcher navigation
 - [ ] Verify all images load correctly on both versions
 - [ ] Test form fields display correct language
@@ -880,19 +844,14 @@ Add to the end of your existing `css/style.css` file:
 - [ ] Test on actual PHP hosting server
 - [ ] Archive or remove old `index.html` file
 
-#### 7.2 Asset Path Considerations
+#### 6.2 Asset Path Simplification
 
-**For Spanish version (`/index.php`):**
-- CSS: `css/style.css`
-- JS: `js/script.js`
-- Images: `assets/image.jpg`
+**All asset paths are the same for both languages:**
+- CSS: `css/style.css` (same for `/` and `/es`)
+- JS: `js/script.js` (same for `/` and `/es`)
+- Images: `assets/image.jpg` (same for `/` and `/es`)
 
-**For Catalan version (`/ca/index.php`):**
-- CSS: `../css/style.css`
-- JS: `../js/script.js`
-- Images: `../assets/image.jpg`
-
-The template file (`includes/template.php`) handles these path differences automatically based on the `$lang` variable.
+**Why?** Both routes are served from the same `index.php` in the root directory, so relative paths are identical. No need for `../` path adjustments.
 
 ---
 
@@ -900,24 +859,24 @@ The template file (`includes/template.php`) handles these path differences autom
 
 ### Functionality Tests
 - [ ] Both routes render without errors
-- [ ] Spanish version at `/` displays Spanish content
-- [ ] Catalan version at `/ca` displays Catalan content
+- [ ] Catalan version at `/` displays Catalan content
+- [ ] Spanish version at `/es` displays Spanish content
 - [ ] Language switcher links redirect correctly
 - [ ] All images load on both versions
-- [ ] All text content is properly translated
+- [ ] All text content is properly displayed in correct language
 - [ ] Form fields show correct labels and placeholders
 - [ ] Social media links work on both versions
 - [ ] Google Maps embed loads and is interactive
 - [ ] No PHP errors or warnings displayed
 
 ### SEO Tests
-- [ ] `/` has `hreflang` link to `/ca`
-- [ ] `/ca` has `hreflang` link to `/`
-- [ ] Both have correct `lang` attribute in `<html>` tag
-- [ ] Both have proper `<title>` tags
-- [ ] Both have proper `<meta description>`
+- [ ] `/` has `hreflang` link to `/es`
+- [ ] `/es` has `hreflang` link to `/`
+- [ ] Both have correct `lang` attribute in `<html>` tag (ca vs es)
+- [ ] Both have proper `<title>` tags in correct language
+- [ ] Both have proper `<meta description>` in correct language
 - [ ] Canonical URLs are set correctly
-- [ ] x-default hreflang points to Spanish version
+- [ ] x-default hreflang points to Catalan version (default language)
 
 ### Responsive Design
 - [ ] Test at desktop (1920px)
@@ -954,14 +913,16 @@ cd /path/to/fisioterapiavilassar.com
 php -S localhost:4321
 
 # Visit in browser
-# Spanish: http://localhost:4321/
-# Catalan: http://localhost:4321/ca
+# Catalan (default): http://localhost:4321/
+# Spanish: http://localhost:4321/es
 ```
 
 **Alternative: Using different port**
 ```bash
 php -S localhost:8000
 ```
+
+**Note:** `.htaccess` rewriting only works on Apache with mod_rewrite enabled. The PHP built-in server doesn't need `.htaccess` - you can test URLs directly like the examples above.
 
 ### Testing with Actual Hosting
 
@@ -980,8 +941,8 @@ If you want to test on your actual PHP hosting:
    Check if `mod_rewrite` is enabled
 
 3. **Test URLs:**
-   - `http://yourdomain.com/` → Spanish
-   - `http://yourdomain.com/ca` → Catalan
+   - `http://yourdomain.com/` → Catalan (default)
+   - `http://yourdomain.com/es` → Spanish
 
 ---
 
@@ -997,7 +958,6 @@ If you want to test on your actual PHP hosting:
    public_html/
    ├── .htaccess
    ├── index.php
-   ├── ca/
    ├── includes/
    ├── translations/
    ├── css/
@@ -1397,13 +1357,13 @@ exit;
 
 ### Phase A: Functionality Implementation (THIS PHASE)
 
-1. Create directory structure (`includes/`, `translations/`, `ca/`)
-2. Create `.htaccess` files for URL rewriting
-3. Create Spanish translations (`translations/es.json`) with actual content
-4. Create placeholder Catalan translations (`translations/ca.json`) marked with `[CA]`
+1. Create directory structure (`includes/`, `translations/`)
+2. Create `.htaccess` file for URL rewriting
+3. Create Catalan translations (`translations/ca.json`) with actual content - **DEFAULT LANGUAGE**
+4. Create Spanish translations (`translations/es.json`) with actual content - **SECONDARY LANGUAGE**
 5. Create PHP helper functions (`includes/functions.php`)
 6. Create main template (`includes/template.php`)
-7. Create entry points (`index.php`, `ca/index.php`)
+7. Create single entry point (`index.php`) that handles both languages
 8. Add language switcher CSS
 9. Test full functionality: routing, language switching, layout, forms
 10. Validate SEO setup (hreflang tags, canonical URLs, lang attributes)
@@ -1411,19 +1371,18 @@ exit;
 12. Test on actual hosting server
 
 **Time estimate:** 3-4 hours
-**Deliverable:** Fully functional bilingual site with placeholder Catalan content
+**Deliverable:** Fully functional bilingual site with Catalan as default
 
-### Phase B: Proper Catalan Translation (AFTER PHASE A)
+### Phase B: Content Optimization (AFTER PHASE A - OPTIONAL)
 
-1. Review Spanish content in `translations/es.json`
-2. Create professional Catalan translations
-3. Replace placeholder content in `translations/ca.json`
-4. Remove `[CA]` prefixes
-5. Final review and QA
-6. Deploy updated translations
+1. Review Catalan content in `translations/ca.json`
+2. Review Spanish content in `translations/es.json`
+3. Make any refinements or optimizations
+4. Update translations as needed
+5. Deploy updated translations
 
-**Time estimate:** 1-2 hours (once Spanish content is finalized)
-**Deliverable:** Complete bilingual website ready for production
+**Time estimate:** 30 mins - 1 hour (optional refinements)
+**Deliverable:** Content-refined bilingual website ready for production
 
 ---
 
@@ -1443,52 +1402,77 @@ This PHP implementation provides:
 ✅ **Same architecture as Node.js plan** - Easy to understand if coming from Node.js
 
 **Total new code (Phase A):**
-- ~80 lines in `.htaccess` files
+- ~40 lines in `.htaccess`
 - ~150 lines in `includes/functions.php`
 - ~350 lines in `includes/template.php`
-- ~30 lines in `index.php` (Spanish entry)
-- ~30 lines in `ca/index.php` (Catalan entry)
-- ~2000 lines in translation JSON files (Spanish real, Catalan placeholder)
+- ~20 lines in `index.php` (single entry point)
+- ~2000 lines in translation JSON files (Catalan + Spanish, both fully translated)
 - ~30 lines of CSS additions
 
-**Total: ~2,670 lines of new code**
+**Total: ~2,590 lines of new code**
+
+**Simpler than original Node.js plan:**
+- Single `.htaccess` file instead of two
+- Single `index.php` instead of two entry points
+- No subdirectories needed
+- Simpler asset path handling
 
 ---
 
 ## Timeline Estimate
 
-### Phase A (Functionality)
+### Phase A (Functionality Implementation)
 **Setup & Planning:** 30 mins
 **Directory structure + .htaccess:** 20 mins
-**Translation JSON files:** 1 hour
+**Translation JSON files (both languages):** 1 hour
 **PHP functions + template:** 1.5-2 hours
-**Entry points + CSS:** 30 mins
+**Entry point + CSS:** 20 mins
 **Testing:** 1-1.5 hours (local + hosting, functionality, SEO, responsive)
 
 **Phase A Total: 3.5-5 hours**
 
-### Phase B (Catalan Translations)
-**Translation creation:** 1-2 hours
-**Testing & deployment:** 30 mins
+### Phase B (Optional Content Refinement)
+**Content review & refinement:** 30 mins - 1 hour
+**Testing & deployment:** 20 mins
 
-**Phase B Total: 1.5-2.5 hours**
+**Phase B Total: 50 mins - 1.5 hours**
 
-**Grand Total: 5-7.5 hours** (across both phases)
+**Grand Total: 3.5-6.5 hours** (Phase A + optional Phase B)
+
+---
+
+## Key Differences from Original Plan
+
+**Original Node.js Plan:**
+- `/` → Spanish (default)
+- `/ca` → Catalan
+- Required Node.js + Express.js
+- Two subdirectories needed
+
+**This Updated PHP Plan:**
+- `/` → Catalan (default) ✅
+- `/es` → Spanish ✅
+- Pure PHP (no dependencies)
+- Flat directory structure (no subdirectories) ✅
+- Single entry point
+- Simplified asset paths
 
 ---
 
 ## Questions Before Phase A Implementation?
 
-1. Does your hosting support `.htaccess` and `mod_rewrite`?
-2. What PHP version is running on your server? (Run `<?php phpinfo(); ?>` to check)
+1. Does your hosting support `.htaccess` and `mod_rewrite`? (Most shared hosting does)
+2. What PHP version is running on your server? (PHP 7.4+ recommended)
 3. Do you have FTP/SFTP access to upload files?
-4. Should the contact form send emails, or just display a success message?
-5. Do you want automatic language detection based on browser settings?
-6. Should we set up caching for better performance?
+4. Should the contact form send emails, or just display a success message? (optional enhancement)
+5. Do you want automatic language detection based on browser settings? (optional enhancement)
+6. Should we set up caching for better performance? (optional enhancement)
 
 ---
 
-**Document Version:** 1.0
+**Document Version:** 2.0 (Updated for Catalan-first, flat structure)
 **Last Updated:** 2025-11-20
 **Status:** Ready for Phase A Implementation
 **Implementation Type:** PHP (Shared Hosting Compatible)
+**Language Priority:** Catalan (default) / Spanish (secondary)
+**Production Domain:** fisioterapiavilassar.com
