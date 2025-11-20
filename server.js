@@ -1,12 +1,29 @@
 const express = require('express');
 const path = require('path');
+const nodemailer = require('nodemailer');
+const multer = require('multer');
+require('dotenv').config();
 const app = express();
+
+// Configure multer for form data
+const upload = multer();
 
 // Load translations
 const translations = {
   es: require('./translations/es.json'),
   ca: require('./translations/ca.json')
 };
+
+// Configure nodemailer transporter
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: process.env.SMTP_PORT == 465,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD
+  }
+});
 
 // Configuration
 app.set('view engine', 'ejs');
@@ -41,6 +58,106 @@ app.get('/es', (req, res) => {
     alternateLang: 'ca',
     alternateLangName: 'Català'
   });
+});
+
+// Contact form handler - Catalan
+app.post('/', upload.none(), async (req, res) => {
+  try {
+    const { nombre, email, telefono, mensaje } = req.body;
+
+    // Validate required fields
+    if (!nombre || !email || !mensaje) {
+      return res.status(400).json({
+        success: false,
+        message: translations.ca.contacto.form.error || 'Please fill in all required fields'
+      });
+    }
+
+    // Render email template
+    const emailHtml = await new Promise((resolve, reject) => {
+      const data = {
+        name: nombre,
+        email: email,
+        phone: telefono,
+        message: mensaje,
+        isSpanish: false
+      };
+      res.app.render('email-template', data, (err, html) => {
+        if (err) reject(err);
+        else resolve(html);
+      });
+    });
+
+    // Send email
+    await transporter.sendMail({
+      from: `Web fisioterapiavilassar <${process.env.SMTP_FROM_EMAIL}>`,
+      to: process.env.RECIPIENT_EMAIL,
+      replyTo: email,
+      subject: `Nuevo mensaje de contacto de ${nombre}`,
+      html: emailHtml
+    });
+
+    res.json({
+      success: true,
+      message: translations.ca.contacto.form.success || 'Message sent successfully'
+    });
+  } catch (error) {
+    console.error('Email error:', error);
+    res.status(500).json({
+      success: false,
+      message: translations.ca.contacto.form.errorServer || 'Error sending message'
+    });
+  }
+});
+
+// Contact form handler - Spanish
+app.post('/es', upload.none(), async (req, res) => {
+  try {
+    const { nombre, email, telefono, mensaje } = req.body;
+
+    // Validate required fields
+    if (!nombre || !email || !mensaje) {
+      return res.status(400).json({
+        success: false,
+        message: translations.es.contacto.form.error || 'Please fill in all required fields'
+      });
+    }
+
+    // Render email template
+    const emailHtml = await new Promise((resolve, reject) => {
+      const data = {
+        name: nombre,
+        email: email,
+        phone: telefono,
+        message: mensaje,
+        isSpanish: true
+      };
+      res.app.render('email-template', data, (err, html) => {
+        if (err) reject(err);
+        else resolve(html);
+      });
+    });
+
+    // Send email
+    await transporter.sendMail({
+      from: `Web fisioterapiavilassar <${process.env.SMTP_FROM_EMAIL}>`,
+      to: process.env.RECIPIENT_EMAIL,
+      replyTo: email,
+      subject: `Nuevo mensaje de contacto de ${nombre}`,
+      html: emailHtml
+    });
+
+    res.json({
+      success: true,
+      message: translations.es.contacto.form.success || 'Message sent successfully'
+    });
+  } catch (error) {
+    console.error('Email error:', error);
+    res.status(500).json({
+      success: false,
+      message: translations.es.contacto.form.errorServer || 'Error sending message'
+    });
+  }
 });
 
 // 404 handler

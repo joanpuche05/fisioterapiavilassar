@@ -122,7 +122,8 @@
                 <div class="contact-wrapper">
                     <div class="contact-form">
                         <h3><%= t.contacto.form.heading %></h3>
-                        <form action="#" method="POST">
+                        <div id="formMessage" class="form-message" style="display: none;"></div>
+                        <form id="contactForm">
                             <div class="form-group">
                                 <label for="nombre"><%= t.contacto.form.labels.nombre %></label>
                                 <input type="text" id="nombre" name="nombre" placeholder="<%= t.contacto.form.placeholders.nombre %>" required>
@@ -139,7 +140,7 @@
                                 <label for="mensaje"><%= t.contacto.form.labels.mensaje %></label>
                                 <textarea id="mensaje" name="mensaje" rows="5" placeholder="<%= t.contacto.form.placeholders.mensaje %>" required></textarea>
                             </div>
-                            <button type="submit" class="cta-button"><%= t.contacto.form.button %></button>
+                            <button type="submit" class="cta-button" id="submitBtn"><%= t.contacto.form.button %></button>
                         </form>
                     </div>
                     <div class="contact-info">

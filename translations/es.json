@@ -75,7 +75,10 @@
         "email": "tu@email.com",
         "telefono": "+34 93 759 84 13",
         "mensaje": "Tu mensaje aquí..."
-      }
+      },
+      "success": "¡Mensaje enviado correctamente! Nos pondremos en contacto pronto.",
+      "error": "Por favor, rellena todos los campos obligatorios.",
+      "errorServer": "Error al enviar el mensaje. Por favor, intenta de nuevo."
     },
     "info": {
       "heading": "Información de Contacto",

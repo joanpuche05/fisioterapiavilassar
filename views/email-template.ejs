@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid #4fbdb3;
+        }
+        .header img {
+            max-width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .content {
+            padding: 40px 20px;
+        }
+        .message-box {
+            background-color: #f4f4f4;
+            border-left: 4px solid #4fbdb3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .field-group {
+            margin-bottom: 25px;
+        }
+        .field-label {
+            font-weight: 600;
+            color: #0d2c40;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .field-value {
+            color: #333;
+            font-size: 14px;
+            word-break: break-word;
+        }
+        .message-content {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .footer {
+            background-color: #f4f4f4;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #666;
+        }
+        .footer-divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 20px 0;
+        }
+        .contact-info {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        .cta-link {
+            color: #4fbdb3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .cta-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="https://fisioterapiavilassar.com/assets/logo.png" alt="Axl Espai de Salut Logo">
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p style="font-size: 14px; color: #666;">
+                <%= isSpanish ? 'Ha recibido un nuevo mensaje desde el formulario de contacto de su sitio web.' : 'Ha rebut un nou missatge des del formulari de contacte del seu lloc web.' %>
+            </p>
+
+            <!-- Contact Details -->
+            <div class="field-group">
+                <span class="field-label"><%= isSpanish ? 'Nombre' : 'Nom' %></span>
+                <div class="field-value"><%= name %></div>
+            </div>
+
+            <div class="field-group">
+                <span class="field-label"><%= isSpanish ? 'Email' : 'Email' %></span>
+                <div class="field-value"><a href="mailto:<%= email %>" class="cta-link"><%= email %></a></div>
+            </div>
+
+            <% if (phone) { %>
+            <div class="field-group">
+                <span class="field-label"><%= isSpanish ? 'Teléfono' : 'Telèfon' %></span>
+                <div class="field-value"><%= phone %></div>
+            </div>
+            <% } %>
+
+            <!-- Message -->
+            <div class="field-group">
+                <span class="field-label"><%= isSpanish ? 'Mensaje' : 'Missatge' %></span>
+                <div class="message-box">
+                    <div class="field-value message-content"><%= message %></div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                <p style="font-size: 13px; color: #666;">
+                    <%= isSpanish ? 'Puede responder directamente a este email para contactar con el visitante.' : 'Podeu respondre directament a aquest correu per contactar amb el visitant.' %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-divider"></div>
+            <p style="margin: 0; color: #999;">
+                <%= isSpanish ? 'Este mensaje fue generado automáticamente desde el formulario de contacto.' : 'Aquest missatge va ser generat automàticament des del formulari de contacte.' %>
+            </p>
+            <p style="margin: 10px 0 0 0; color: #999;">
+                Axl Espai de Salut
+            </p>
+        </div>
+    </div>
+</body>
+</html>
