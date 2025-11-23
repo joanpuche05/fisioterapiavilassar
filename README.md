@@ -278,6 +278,33 @@ chmod +x deploy.sh
 ./deploy.sh
 ```
 
+### Automated Deployment with AWS Lambda
+
+The project includes an automated deployment pipeline that runs every day at **7:00 AM UTC**:
+
+**How it works:**
+1. **EventBridge Rule** (`DeployFisioterapiaDaily`) triggers a scheduled event at 7am
+2. **Lambda Function** (`DeployFisioterapia`) is invoked automatically
+3. Lambda uses **AWS Systems Manager** to execute the deployment script on the EC2 instance
+4. The script pulls the latest code from GitHub, checks for dependency changes, and restarts the application
+
+**What the automation does:**
+- Pulls latest changes from the `main` branch
+- Installs any new npm dependencies if `package.json` changed
+- Restarts the application with PM2
+- Logs the deployment output to CloudWatch
+
+**Benefits:**
+- No manual deployment needed after pushing code to GitHub
+- Consistent deployment at a scheduled time
+- Deployment logs available in AWS CloudWatch
+- Automatic rollback instructions provided in the output
+
+**Note:** The deploy script requires:
+- EC2 instance with SSM agent (required for Lambda to execute commands)
+- Proper IAM role permissions for Lambda and EC2
+- Git configured to allow the ec2-user to access the repository
+
 ## Useful Commands
 
 ### Development
