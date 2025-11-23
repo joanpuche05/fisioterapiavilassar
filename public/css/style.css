@@ -342,7 +342,7 @@ header nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-    background: url('../assets/hero-background.jpg') no-repeat center center/cover;
+    background: url('../assets/hero-background.webp') no-repeat center center/cover;
     background-attachment: scroll;
     height: 100vh;
     display: flex;
@@ -539,7 +539,7 @@ header nav ul li a:hover {
 /* Divider Image Section */
 .divider-image {
     padding: 0;
-    background: url('../assets/divider-image.png') no-repeat center top/cover;
+    background: url('../assets/divider-image.webp') no-repeat center top/cover;
     background-attachment: fixed;
     height: 600px;
     width: 100%;

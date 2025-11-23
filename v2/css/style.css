@@ -359,7 +359,7 @@ blockquote {
 /* Divider Image */
 .divider-image {
     height: 400px;
-    background: url('../assets/divider-image.png') no-repeat center center/cover;
+    background: url('../assets/divider-image.webp') no-repeat center center/cover;
     background-attachment: fixed;
     position: relative;
 }
