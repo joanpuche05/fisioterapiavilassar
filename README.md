@@ -138,7 +138,7 @@ RECIPIENT_EMAIL=recipient@example.com
 
 ## Deployment
 
-The project is deployed on AWS EC2 with the following setup:
+The project is deployed on AWS EC2 with automated daily deployments via AWS Lambda.
 
 ### Server Architecture
 - **Server:** AWS EC2 instance
@@ -148,14 +148,87 @@ The project is deployed on AWS EC2 with the following setup:
 - **Web Server:** Nginx (reverse proxy on port 80/443)
 - **SSL:** Let's Encrypt certificate (auto-renewal)
 - **Domain:** aws.fisioterapiavilassar.com
+- **Deployment:** AWS Lambda + EventBridge (daily at 7:00 AM UTC)
 
-### Initial Server Setup (One-Time)
+### Standard Workflow
 
-This setup was already completed for the production server, but here's the process for reference:
+This is the typical development and deployment flow:
+
+1. **Work locally**
+   ```bash
+   npm start
+   # Make changes, test locally
+   ```
+
+2. **Commit and push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Your message"
+   git push
+   ```
+
+3. **Automatic deployment at 7:00 AM UTC**
+   - Changes are automatically deployed every morning at 7am
+   - No manual action needed
+   - Deployment logs available in AWS CloudWatch
+
+4. **For urgent deployments** (if you need immediate deployment)
+   - SSH to server and run: `./deploy.sh`
+
+### Automated Deployment with AWS Lambda
+
+The project includes an automated deployment pipeline that runs every day at **7:00 AM UTC**:
+
+**How it works:**
+1. **EventBridge Rule** (`DeployFisioterapiaDaily`) triggers a scheduled event at 7am
+2. **Lambda Function** (`DeployFisioterapia`) is invoked automatically
+3. Lambda uses **AWS Systems Manager** to execute the deployment script on the EC2 instance
+4. The script pulls the latest code from GitHub, checks for dependency changes, and restarts the application
+
+**What the automation does:**
+- Pulls latest changes from the `main` branch
+- Installs any new npm dependencies if `package.json` changed
+- Restarts the application with PM2
+- Logs the deployment output to CloudWatch
+
+**Benefits:**
+- No manual deployment needed after pushing code to GitHub
+- Consistent deployment at a scheduled time
+- Deployment logs available in AWS CloudWatch
+- Automatic rollback instructions provided in the output
+
+### Manual Deployment (Urgent Changes)
+
+If you need to deploy changes immediately before 7:00 AM:
+
+1. **SSH into the server**
+   ```bash
+   ssh ec2-user@<server-ip>
+   ```
+
+2. **Run the deployment script**
+   ```bash
+   cd /home/ec2-user/app/fisioterapiavilassar
+   ./deploy.sh
+   ```
+
+3. **Verify deployment**
+   ```bash
+   pm2 status
+   pm2 logs fisioterapiavilassar --lines 20
+   ```
+
+The `deploy.sh` script handles:
+- Pulling latest changes from GitHub
+- Installing dependencies
+- Restarting the application with PM2
+
+### Initial Server Setup (One-Time Reference)
+
+This setup was already completed for the production server. Here's the process for reference if setting up a new server:
 
 1. **Install dependencies**
    ```bash
-   # Node.js and npm should already be installed
    npm install -g pm2
    ```
 
@@ -170,8 +243,7 @@ This setup was already completed for the production server, but here's the proce
 3. **Configure environment**
    ```bash
    cp .env.example .env
-   # Edit .env with production SMTP credentials
-   nano .env
+   nano .env  # Edit with production SMTP credentials
    ```
 
 4. **Start with PM2**
@@ -179,7 +251,6 @@ This setup was already completed for the production server, but here's the proce
    pm2 start server.js --name fisioterapiavilassar
    pm2 save
    pm2 startup
-   # Run the command that PM2 outputs
    ```
 
 5. **Configure Nginx**
@@ -208,6 +279,7 @@ This setup was already completed for the production server, but here's the proce
    }
    ```
 
+   Then reload Nginx:
    ```bash
    sudo nginx -t
    sudo systemctl reload nginx
@@ -217,93 +289,6 @@ This setup was already completed for the production server, but here's the proce
    ```bash
    sudo certbot --nginx -d aws.fisioterapiavilassar.com
    ```
-
-## Deployment Workflow
-
-### Deploying Changes to Production
-
-When you push changes to the GitHub repository, follow these steps to deploy to the server:
-
-1. **SSH into the server**
-   ```bash
-   ssh ec2-user@<server-ip>
-   ```
-
-2. **Navigate to project directory**
-   ```bash
-   cd /home/ec2-user/app/fisioterapiavilassar
-   ```
-
-3. **Pull the latest changes**
-   ```bash
-   git pull
-   ```
-
-4. **Install any new dependencies** (if package.json changed)
-   ```bash
-   npm install
-   ```
-
-5. **Restart the application**
-   ```bash
-   pm2 restart fisioterapiavilassar
-   ```
-
-6. **Verify deployment**
-   ```bash
-   pm2 status
-   pm2 logs fisioterapiavilassar --lines 20
-   ```
-
-7. **Test the site**
-   Visit https://aws.fisioterapiavilassar.com to verify changes
-
-### Quick Deployment Script
-
-You can create a deployment script for convenience:
-
-```bash
-#!/bin/bash
-# deploy.sh
-cd /home/ec2-user/app/fisioterapiavilassar
-git pull
-npm install
-pm2 restart fisioterapiavilassar
-pm2 status
-```
-
-Make it executable and run:
-```bash
-chmod +x deploy.sh
-./deploy.sh
-```
-
-### Automated Deployment with AWS Lambda
-
-The project includes an automated deployment pipeline that runs every day at **7:00 AM UTC**:
-
-**How it works:**
-1. **EventBridge Rule** (`DeployFisioterapiaDaily`) triggers a scheduled event at 7am
-2. **Lambda Function** (`DeployFisioterapia`) is invoked automatically
-3. Lambda uses **AWS Systems Manager** to execute the deployment script on the EC2 instance
-4. The script pulls the latest code from GitHub, checks for dependency changes, and restarts the application
-
-**What the automation does:**
-- Pulls latest changes from the `main` branch
-- Installs any new npm dependencies if `package.json` changed
-- Restarts the application with PM2
-- Logs the deployment output to CloudWatch
-
-**Benefits:**
-- No manual deployment needed after pushing code to GitHub
-- Consistent deployment at a scheduled time
-- Deployment logs available in AWS CloudWatch
-- Automatic rollback instructions provided in the output
-
-**Note:** The deploy script requires:
-- EC2 instance with SSM agent (required for Lambda to execute commands)
-- Proper IAM role permissions for Lambda and EC2
-- Git configured to allow the ec2-user to access the repository
 
 ## Useful Commands
 
