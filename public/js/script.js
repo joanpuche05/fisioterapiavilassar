@@ -124,6 +124,14 @@ async function handleContactFormSubmit(e) {
             // Reset form
             form.reset();
 
+            // Reset Turnstile widget
+            if (window.turnstile) {
+                const turnstileWidget = form.querySelector('.cf-turnstile');
+                if (turnstileWidget) {
+                    window.turnstile.reset();
+                }
+            }
+
             // Hide success message after 5 seconds
             setTimeout(() => {
                 formMessage.style.display = 'none';
@@ -133,12 +141,28 @@ async function handleContactFormSubmit(e) {
             formMessage.className = 'form-message error';
             formMessage.textContent = result.message;
             formMessage.style.display = 'block';
+
+            // Reset Turnstile widget on error (allow retry)
+            if (window.turnstile) {
+                const turnstileWidget = form.querySelector('.cf-turnstile');
+                if (turnstileWidget) {
+                    window.turnstile.reset();
+                }
+            }
         }
     } catch (error) {
         console.error('Form submission error:', error);
         formMessage.className = 'form-message error';
         formMessage.textContent = 'Error al enviar el mensaje. Por favor, intenta de nuevo.';
         formMessage.style.display = 'block';
+
+        // Reset Turnstile widget on error
+        if (window.turnstile) {
+            const turnstileWidget = form.querySelector('.cf-turnstile');
+            if (turnstileWidget) {
+                window.turnstile.reset();
+            }
+        }
     } finally {
         // Restore button state
         submitBtn.disabled = false;

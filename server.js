@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
+const axios = require('axios');
 require('dotenv').config();
 const app = express();
 
@@ -24,6 +25,29 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASSWORD
   }
 });
+
+// Cloudflare Turnstile verification function
+async function verifyTurnstileToken(token) {
+  try {
+    const response = await axios.post(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        secret: process.env.TURNSTILE_SECRET_KEY,
+        response: token
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    return response.data.success;
+  } catch (error) {
+    console.error('Turnstile verification error:', error);
+    return false;
+  }
+}
 
 // Configuration
 app.set('view engine', 'ejs');
@@ -93,7 +117,23 @@ app.get('/es/politica-de-privacidad', (req, res) => {
 // Contact form handler - Catalan
 app.post('/', upload.none(), async (req, res) => {
   try {
-    const { nombre, email, telefono, mensaje } = req.body;
+    const { nombre, email, telefono, mensaje, 'cf-turnstile-response': turnstileToken } = req.body;
+
+    // Validate CAPTCHA
+    if (!turnstileToken) {
+      return res.status(400).json({
+        success: false,
+        message: translations.ca.contacto.form.captchaRequired || 'CAPTCHA verification required'
+      });
+    }
+
+    const isCaptchaValid = await verifyTurnstileToken(turnstileToken);
+    if (!isCaptchaValid) {
+      return res.status(400).json({
+        success: false,
+        message: translations.ca.contacto.form.captchaFailed || 'CAPTCHA verification failed'
+      });
+    }
 
     // Validate required fields
     if (!nombre || !email || !mensaje) {
@@ -143,7 +183,23 @@ app.post('/', upload.none(), async (req, res) => {
 // Contact form handler - Spanish
 app.post('/es', upload.none(), async (req, res) => {
   try {
-    const { nombre, email, telefono, mensaje } = req.body;
+    const { nombre, email, telefono, mensaje, 'cf-turnstile-response': turnstileToken } = req.body;
+
+    // Validate CAPTCHA
+    if (!turnstileToken) {
+      return res.status(400).json({
+        success: false,
+        message: translations.es.contacto.form.captchaRequired || 'CAPTCHA verification required'
+      });
+    }
+
+    const isCaptchaValid = await verifyTurnstileToken(turnstileToken);
+    if (!isCaptchaValid) {
+      return res.status(400).json({
+        success: false,
+        message: translations.es.contacto.form.captchaFailed || 'CAPTCHA verification failed'
+      });
+    }
 
     // Validate required fields
     if (!nombre || !email || !mensaje) {

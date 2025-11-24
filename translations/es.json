@@ -79,7 +79,9 @@
       "success": "¡Mensaje enviado correctamente! Nos pondremos en contacto pronto.",
       "error": "Por favor, rellena todos los campos obligatorios.",
       "errorServer": "Error al enviar el mensaje. Por favor, intenta de nuevo.",
-      "emailSubject": "Nuevo mensaje de contacto de"
+      "emailSubject": "Nuevo mensaje de contacto de",
+      "captchaRequired": "Por favor, completa la verificación de seguridad.",
+      "captchaFailed": "La verificación de seguridad ha fallado. Por favor, intenta de nuevo."
     },
     "info": {
       "heading": "Información de Contacto",
