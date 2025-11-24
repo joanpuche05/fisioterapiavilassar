@@ -161,7 +161,7 @@ app.post('/', upload.none(), async (req, res) => {
     // Send email
     await transporter.sendMail({
       from: `Web fisioterapiavilassar <${process.env.SMTP_FROM_EMAIL}>`,
-      to: process.env.RECIPIENT_EMAIL,
+      to: `${process.env.RECIPIENT_EMAIL}, axl@fisioterapiavilassar.com`,
       replyTo: email,
       subject: `${translations.ca.contacto.form.emailSubject} ${nombre}`,
       html: emailHtml
@@ -227,7 +227,7 @@ app.post('/es', upload.none(), async (req, res) => {
     // Send email
     await transporter.sendMail({
       from: `Web fisioterapiavilassar <${process.env.SMTP_FROM_EMAIL}>`,
-      to: process.env.RECIPIENT_EMAIL,
+      to: `${process.env.RECIPIENT_EMAIL}, axl@fisioterapiavilassar.com`,
       replyTo: email,
       subject: `${translations.es.contacto.form.emailSubject} ${nombre}`,
       html: emailHtml
